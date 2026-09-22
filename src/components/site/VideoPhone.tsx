@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils";
 export interface VideoPhoneProps {
   src: string;
   label: string;
+  /** Imagem de capa exibida antes da reprodução. */
+  poster?: string;
   className?: string;
   /** Reproduz automaticamente em loop e sem som (usado no hero). */
   auto?: boolean;
@@ -18,7 +20,7 @@ export interface VideoPhoneProps {
  * Fora do modo `auto`, o arquivo só é baixado quando o visitante toca no play
  * (`preload="none"`), evitando carregar toda a galeria de uma vez.
  */
-export function VideoPhone({ src, label, className, auto = false }: VideoPhoneProps) {
+export function VideoPhone({ src, label, poster, className, auto = false }: VideoPhoneProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [started, setStarted] = useState(auto);
 
@@ -37,6 +39,7 @@ export function VideoPhone({ src, label, className, auto = false }: VideoPhonePr
         <video
           ref={videoRef}
           src={src}
+          poster={poster}
           className="size-full object-cover"
           playsInline
           muted

@@ -13,7 +13,13 @@ import {
 } from "@/components/ui/accordion";
 import fotoPrato from "@/assets/foto-prato.jpg.asset.json";
 import { getContactHref } from "@/lib/contact";
-import { GALLERY_VIDEOS, HERO_VIDEO_URL, PROCESS_VIDEO_URL } from "@/lib/videos";
+import {
+  GALLERY_VIDEOS,
+  HERO_POSTER_URL,
+  HERO_VIDEO_URL,
+  PROCESS_POSTER_URL,
+  PROCESS_VIDEO_URL,
+} from "@/lib/videos";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -148,6 +154,7 @@ function Landing() {
               <PhoneFrame>
                 <video
                   src={HERO_VIDEO_URL}
+                  poster={HERO_POSTER_URL}
                   className="size-full object-cover"
                   autoPlay
                   muted
@@ -243,7 +250,11 @@ function Landing() {
         <section className="px-4 py-16 sm:px-6">
           <div className="mx-auto grid w-full max-w-6xl items-center gap-10 md:grid-cols-[minmax(0,15rem)_1fr] md:gap-14">
             <div className="mx-auto w-[14rem] md:mx-0 md:w-full">
-              <VideoPhone src={PROCESS_VIDEO_URL} label="Preparação do modelo" />
+              <VideoPhone
+                src={PROCESS_VIDEO_URL}
+                poster={PROCESS_POSTER_URL}
+                label="Preparação do modelo"
+              />
             </div>
             <div>
               <h2 className="text-3xl font-bold text-balance sm:text-4xl">
@@ -287,7 +298,7 @@ function Landing() {
           <ul className="mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto px-4 pb-4 sm:px-6 lg:mx-auto lg:max-w-6xl lg:snap-none lg:overflow-visible">
             {GALLERY_VIDEOS.map((video) => (
               <li key={video.id} className="w-[10.5rem] flex-none snap-center lg:w-auto lg:flex-1">
-                <VideoPhone src={video.url} label={video.label} />
+                <VideoPhone src={video.url} poster={video.poster} label={video.label} />
               </li>
             ))}
           </ul>
