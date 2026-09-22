@@ -166,7 +166,7 @@ function Landing() {
                 <HeroVideo
                   src={HERO_VIDEO_URL}
                   poster={HERO_POSTER_URL}
-                  label="Pizza vista sobre uma mesa em realidade aumentada"
+                  label="Hambúrguer visto sobre uma mesa em realidade aumentada"
                 />
               </SafeBlock>
             </div>
@@ -181,9 +181,8 @@ function Landing() {
                 src="/models/burger.glb"
                 iosSrc={usdzFor("burger")}
                 alt="Modelo 3D interativo de um hambúrguer"
-                deferred
+                lazy
                 exclusive
-                openLabel="Ver hambúrguer em 3D"
                 showArButton
                 arLabel="Ver na minha mesa"
                 className="h-[22rem] sm:h-[30rem]"
@@ -230,9 +229,8 @@ function Landing() {
                   <ModelStage
                     src="/models/grilled-steak.glb"
                     alt="Modelo 3D interativo de um bife grelhado"
-                    deferred
-                    exclusive
-                    openLabel="Ver em 3D"
+                    lazy
+
                     className="h-52 rounded-none border-0 sm:h-64"
                   />
                 </SafeBlock>
