@@ -24,3 +24,6 @@ export const GALLERY_VIDEOS: readonly GalleryVideo[] = [
   { id: "feijoada", label: "Feijoada", url: feijoada.url },
   { id: "marmita", label: "Marmita", url: marmita.url },
 ] as const;
+
+/** Vídeo usado na seção de produção dos modelos. */
+export const PROCESS_VIDEO_URL: string = marmita.url;

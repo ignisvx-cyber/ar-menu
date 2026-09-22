@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/accordion";
 import fotoPrato from "@/assets/foto-prato.jpg.asset.json";
 import { getContactHref } from "@/lib/contact";
-import { GALLERY_VIDEOS, HERO_VIDEO_URL } from "@/lib/videos";
+import { GALLERY_VIDEOS, HERO_VIDEO_URL, PROCESS_VIDEO_URL } from "@/lib/videos";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -243,7 +243,7 @@ function Landing() {
         <section className="px-4 py-16 sm:px-6">
           <div className="mx-auto grid w-full max-w-6xl items-center gap-10 md:grid-cols-[minmax(0,15rem)_1fr] md:gap-14">
             <div className="mx-auto w-[14rem] md:mx-0 md:w-full">
-              <VideoPhone src={GALLERY_VIDEOS[5].url} label="Preparação do modelo" />
+              <VideoPhone src={PROCESS_VIDEO_URL} label="Preparação do modelo" />
             </div>
             <div>
               <h2 className="text-3xl font-bold text-balance sm:text-4xl">
