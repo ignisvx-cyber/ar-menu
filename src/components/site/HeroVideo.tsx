@@ -1,5 +1,5 @@
 import { Play } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { PhoneFrame } from "@/components/site/PhoneFrame";
 import { claimPlayback, releasePlayback } from "@/lib/video-playback";
@@ -17,16 +17,25 @@ export interface HeroVideoProps {
  * A primeira renderização mostra apenas a imagem de capa — nenhum elemento
  * `<video>` participa do carregamento inicial da página. O vídeo só é montado
  * depois da hidratação, quando a moldura está visível. Se a reprodução
- * automática for bloqueada ou o arquivo falhar, voltamos para a capa com um
- * botão de play: a página continua abrindo normalmente.
+ * automática for bloqueada, o arquivo falhar ou outro vídeo assumir a
+ * reprodução, voltamos para a capa com um botão de play: a página continua
+ * aberta e utilizável.
  */
 export function HeroVideo({ src, poster, label }: HeroVideoProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
-  const [failed, setFailed] = useState(false);
+  const [showPlayButton, setShowPlayButton] = useState(false);
+
+  // Referência estável: evita que uma nova função a cada render cancele a si mesma.
+  const releaseRef = useRef<() => void>(() => {});
+  releaseRef.current = () => {
+    setMounted(false);
+    setShowPlayButton(true);
+  };
+  const release = useCallback(() => releaseRef.current(), []);
 
   useEffect(() => {
-    if (mounted) return;
+    if (mounted || showPlayButton) return;
     const node = containerRef.current;
     if (!node || typeof IntersectionObserver === "undefined") {
       setMounted(true);
@@ -43,21 +52,14 @@ export function HeroVideo({ src, poster, label }: HeroVideoProps) {
     );
     observer.observe(node);
     return () => observer.disconnect();
-  }, [mounted]);
+  }, [mounted, showPlayButton]);
 
-  useEffect(() => {
-    if (!mounted || failed) return;
-    const release = () => setFailed(true);
-    claimPlayback(release);
-    return () => releasePlayback(release);
-  }, [mounted, failed]);
-
-  const showVideo = mounted && !failed;
+  useEffect(() => () => releasePlayback(release), [release]);
 
   return (
     <div ref={containerRef} className="w-full">
       <PhoneFrame>
-        {showVideo ? (
+        {mounted ? (
           <video
             src={src}
             poster={poster}
@@ -68,7 +70,8 @@ export function HeroVideo({ src, poster, label }: HeroVideoProps) {
             loop
             playsInline
             preload="metadata"
-            onError={() => setFailed(true)}
+            onPlay={() => claimPlayback(release)}
+            onError={release}
           />
         ) : (
           <>
@@ -77,13 +80,12 @@ export function HeroVideo({ src, poster, label }: HeroVideoProps) {
               alt={label}
               className="size-full object-cover"
               decoding="async"
-              fetchPriority="high"
             />
-            {failed ? (
+            {showPlayButton ? (
               <button
                 type="button"
                 onClick={() => {
-                  setFailed(false);
+                  setShowPlayButton(false);
                   setMounted(true);
                 }}
                 aria-label={`Reproduzir demonstração: ${label}`}

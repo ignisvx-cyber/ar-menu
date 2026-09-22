@@ -9,38 +9,26 @@ export interface VideoPhoneProps {
   src: string;
   label: string;
   /** Imagem de capa exibida antes da reprodução. */
-  poster?: string;
-  className?: string;
+  poster?: string | undefined;
+  className?: string | undefined;
 }
 
 /**
  * Vídeo vertical dentro de uma moldura de smartphone.
  *
  * Enquanto o visitante não toca no play, NENHUM elemento `<video>` existe na
- * página — apenas a imagem de capa. O elemento é criado no toque e é desmontado
+ * página — apenas a imagem de capa. O elemento é criado no toque e desmontado
  * assim que outro vídeo começa a tocar, garantindo um único decodificador de
  * mídia ativo (requisito para o Safari do iPhone não encerrar a aba).
  */
 export function VideoPhone({ src, label, poster, className }: VideoPhoneProps) {
   const [active, setActive] = useState(false);
-  const releaseRef = useRef<(() => void) | null>(null);
 
-  const stop = useCallback(() => {
-    setActive(false);
-  }, []);
+  const releaseRef = useRef<() => void>(() => {});
+  releaseRef.current = () => setActive(false);
+  const release = useCallback(() => releaseRef.current(), []);
 
-  useEffect(() => {
-    if (!active) return;
-    const release = () => {
-      stop();
-    };
-    releaseRef.current = release;
-    claimPlayback(release);
-    return () => {
-      releasePlayback(release);
-      releaseRef.current = null;
-    };
-  }, [active, stop]);
+  useEffect(() => () => releasePlayback(release), [release]);
 
   return (
     <figure className={cn("flex flex-col items-center gap-3", className)}>
@@ -56,7 +44,8 @@ export function VideoPhone({ src, label, poster, className }: VideoPhoneProps) {
             controls
             autoPlay
             preload="metadata"
-            onError={stop}
+            onPlay={() => claimPlayback(release)}
+            onError={release}
           />
         ) : (
           <>
