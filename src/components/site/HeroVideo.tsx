@@ -35,7 +35,7 @@ export function HeroVideo({ src, poster, label }: HeroVideoProps) {
   const release = useCallback(() => releaseRef.current(), []);
 
   useEffect(() => {
-    if (mounted) return;
+    if (mounted || showPlayButton) return;
     const node = containerRef.current;
     if (!node || typeof IntersectionObserver === "undefined") {
       setMounted(true);
