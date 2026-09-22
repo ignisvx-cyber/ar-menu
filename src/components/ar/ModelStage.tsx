@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 interface ModelViewerElementProps {
   ref?: Ref<HTMLElement>;
   src: string;
+  "ios-src"?: string;
   alt: string;
   ar?: boolean;
   "ar-modes"?: string;
@@ -28,6 +29,12 @@ const ModelViewerElement = "model-viewer" as unknown as ComponentType<ModelViewe
 export interface ModelStageProps {
   /** Caminho público do GLB, ex.: "/models/burger.glb". */
   src: string;
+  /**
+   * USDZ dedicado usado pelo AR Quick Look do iPhone. Quando ausente, o
+   * model-viewer converte o GLB no navegador — conversão que costuma escurecer
+   * os materiais.
+   */
+  iosSrc?: string | undefined;
   /** Texto alternativo acessível descrevendo o alimento. */
   alt: string;
   /** Classe aplicada ao contêiner da cena. */
@@ -54,6 +61,7 @@ type LoadState = "idle" | "loading" | "ready" | "error";
  */
 export function ModelStage({
   src,
+  iosSrc,
   alt,
   className,
   lazy = false,
@@ -152,6 +160,7 @@ export function ModelStage({
           <ModelViewerElement
             ref={viewerRef as never}
             src={src}
+            {...(iosSrc ? { "ios-src": iosSrc } : {})}
             alt={alt}
             ar
             ar-modes="webxr scene-viewer quick-look"
