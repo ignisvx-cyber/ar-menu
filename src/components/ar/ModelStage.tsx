@@ -1,5 +1,15 @@
-import { useEffect, useRef, useState, type ComponentType, type CSSProperties, type Ref } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type ComponentType,
+  type CSSProperties,
+  type Ref,
+} from "react";
 
+import { claimModel, releaseModel } from "@/lib/model-playback";
+import { supportsWebgl } from "@/lib/device";
 import { cn } from "@/lib/utils";
 
 /**
@@ -44,6 +54,19 @@ export interface ModelStageProps {
    * Usado no cardápio para não baixar os sete GLBs de uma vez.
    */
   lazy?: boolean;
+  /**
+   * Quando `true`, nada 3D é baixado até o visitante tocar em "Ver em 3D".
+   * Usado na página inicial, onde a prioridade é abrir rápido mesmo em
+   * aparelhos antigos.
+   */
+  deferred?: boolean;
+  /**
+   * Quando `true`, esta cena desmonta qualquer outra cena exclusiva que já
+   * esteja aberta — só um contexto WebGL vivo por vez.
+   */
+  exclusive?: boolean;
+  /** Rótulo do botão que inicia a cena no modo `deferred`. */
+  openLabel?: string;
   /** Renderiza o botão "Ver na minha mesa" abaixo da cena. */
   showArButton?: boolean;
   /** Rótulo do botão de AR. */
@@ -65,6 +88,9 @@ export function ModelStage({
   alt,
   className,
   lazy = false,
+  deferred = false,
+  exclusive = false,
+  openLabel = "Ver em 3D",
   showArButton = false,
   arLabel = "Ver na minha mesa",
 }: ModelStageProps) {
@@ -73,14 +99,25 @@ export function ModelStage({
     null,
   );
   const [defined, setDefined] = useState(false);
-  const [visible, setVisible] = useState(!lazy);
+  const [visible, setVisible] = useState(!lazy && !deferred);
   const [state, setState] = useState<LoadState>("idle");
   const [arAvailable, setArAvailable] = useState(false);
   const [arMessage, setArMessage] = useState<string | null>(null);
+  const [webglBlocked, setWebglBlocked] = useState(false);
+
+  // Referência estável para o encerramento desta cena (usada pelo coordenador).
+  const releaseRef = useRef<() => void>(() => {});
+  releaseRef.current = () => {
+    setVisible(false);
+    setState("idle");
+    setArAvailable(false);
+  };
+  const release = useCallback(() => releaseRef.current(), []);
+  useEffect(() => () => releaseModel(release), [release]);
 
   // Carrega o modelo apenas quando o card entra na tela (modo lazy).
   useEffect(() => {
-    if (!lazy || visible) return;
+    if (!lazy || deferred || visible) return;
     const node = containerRef.current;
     if (!node || typeof IntersectionObserver === "undefined") {
       setVisible(true);
@@ -97,11 +134,21 @@ export function ModelStage({
     );
     observer.observe(node);
     return () => observer.disconnect();
-  }, [lazy, visible]);
+  }, [lazy, deferred, visible]);
 
   // Importa o custom element somente no navegador.
   useEffect(() => {
-    if (!visible || defined) return;
+    if (!visible) return;
+    if (!supportsWebgl()) {
+      setWebglBlocked(true);
+      setState("error");
+      return;
+    }
+    if (exclusive) claimModel(release);
+    if (defined) {
+      setState((value) => (value === "idle" ? "loading" : value));
+      return;
+    }
     let cancelled = false;
     setState("loading");
     import("@google/model-viewer")
@@ -115,12 +162,12 @@ export function ModelStage({
     return () => {
       cancelled = true;
     };
-  }, [visible, defined]);
+  }, [visible, defined, exclusive, release]);
 
   // Eventos de carga do modelo e verificação de suporte a AR.
   useEffect(() => {
     const viewer = viewerRef.current;
-    if (!defined || !viewer) return;
+    if (!defined || !visible || !viewer) return;
 
     const onLoad = () => {
       setState("ready");
@@ -134,7 +181,7 @@ export function ModelStage({
       viewer.removeEventListener("load", onLoad);
       viewer.removeEventListener("error", onError);
     };
-  }, [defined]);
+  }, [defined, visible]);
 
   const handleAr = () => {
     const viewer = viewerRef.current;
@@ -147,6 +194,8 @@ export function ModelStage({
     }
   };
 
+  const showScene = visible && defined && state !== "error";
+
   return (
     <div className="flex w-full flex-col gap-3">
       <div
@@ -156,7 +205,7 @@ export function ModelStage({
           className,
         )}
       >
-        {defined && state !== "error" ? (
+        {showScene ? (
           <ModelViewerElement
             ref={viewerRef as never}
             src={src}
@@ -175,11 +224,26 @@ export function ModelStage({
           />
         ) : null}
 
-        {state !== "ready" ? (
+        {!visible ? (
+          <button
+            type="button"
+            onClick={() => setVisible(true)}
+            className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center"
+          >
+            <span className="inline-flex min-h-12 items-center justify-center rounded-full bg-[image:var(--brand-gradient)] px-7 text-sm font-semibold text-background">
+              {openLabel}
+            </span>
+            <span className="text-xs text-muted-foreground">{alt}</span>
+          </button>
+        ) : null}
+
+        {visible && state !== "ready" ? (
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center px-6 text-center">
             {state === "error" ? (
               <p className="text-sm text-muted-foreground">
-                Não foi possível carregar este modelo 3D. Atualize a página para tentar novamente.
+                {webglBlocked
+                  ? "Este aparelho não conseguiu abrir a visualização 3D."
+                  : "Não foi possível carregar este modelo 3D. Atualize a página para tentar novamente."}
               </p>
             ) : (
               <span className="flex items-center gap-2 text-xs tracking-widest text-muted-foreground uppercase">

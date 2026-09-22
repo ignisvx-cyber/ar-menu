@@ -2,6 +2,7 @@ import { Play } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { PhoneFrame } from "@/components/site/PhoneFrame";
+import { isLowPowerDevice } from "@/lib/device";
 import { claimPlayback, releasePlayback } from "@/lib/video-playback";
 
 export interface HeroVideoProps {
@@ -15,11 +16,11 @@ export interface HeroVideoProps {
  * Demonstração principal do hero.
  *
  * A primeira renderização mostra apenas a imagem de capa — nenhum elemento
- * `<video>` participa do carregamento inicial da página. O vídeo só é montado
- * depois da hidratação, quando a moldura está visível. Se a reprodução
- * automática for bloqueada, o arquivo falhar ou outro vídeo assumir a
- * reprodução, voltamos para a capa com um botão de play: a página continua
- * aberta e utilizável.
+ * `<video>` participa do carregamento inicial da página. Em aparelhos antigos
+ * (iPhone 7, por exemplo) o vídeo só é criado quando o visitante toca no play;
+ * em aparelhos atuais ele é montado após a hidratação, quando a moldura está
+ * visível. Se a reprodução automática for bloqueada, o arquivo falhar ou outro
+ * vídeo assumir a reprodução, voltamos para a capa com um botão de play.
  */
 export function HeroVideo({ src, poster, label }: HeroVideoProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -36,9 +37,14 @@ export function HeroVideo({ src, poster, label }: HeroVideoProps) {
 
   useEffect(() => {
     if (mounted || showPlayButton) return;
+    // Aparelho antigo: nada de autoplay, apenas capa e botão de play.
+    if (isLowPowerDevice()) {
+      setShowPlayButton(true);
+      return;
+    }
     const node = containerRef.current;
     if (!node || typeof IntersectionObserver === "undefined") {
-      setMounted(true);
+      setShowPlayButton(true);
       return;
     }
     const observer = new IntersectionObserver(
