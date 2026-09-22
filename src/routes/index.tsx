@@ -4,6 +4,7 @@ import { ModelStage } from "@/components/ar/ModelStage";
 import { usdzFor } from "@/lib/usdz";
 import { HeroVideo } from "@/components/site/HeroVideo";
 import { SiteFooter } from "@/components/site/SiteFooter";
+import { SafeBlock } from "@/components/site/SafeBlock";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { VideoPhone } from "@/components/site/VideoPhone";
 import {
@@ -161,11 +162,13 @@ function Landing() {
             </p>
 
             <div className="mt-10 w-[15rem] sm:w-[17rem]">
-              <HeroVideo
-                src={HERO_VIDEO_URL}
-                poster={HERO_POSTER_URL}
-                label="Pizza vista sobre uma mesa em realidade aumentada"
-              />
+              <SafeBlock>
+                <HeroVideo
+                  src={HERO_VIDEO_URL}
+                  poster={HERO_POSTER_URL}
+                  label="Pizza vista sobre uma mesa em realidade aumentada"
+                />
+              </SafeBlock>
             </div>
           </div>
         </section>
@@ -173,14 +176,19 @@ function Landing() {
         {/* HAMBÚRGUER 3D */}
         <section id="demonstracao" className="px-4 py-16 sm:px-6">
           <div className="mx-auto w-full max-w-3xl">
-            <ModelStage
-              src="/models/burger.glb"
-              iosSrc={usdzFor("burger")}
-              alt="Modelo 3D interativo de um hambúrguer"
-              showArButton
-              arLabel="Ver na minha mesa"
-              className="h-[22rem] sm:h-[30rem]"
-            />
+            <SafeBlock>
+              <ModelStage
+                src="/models/burger.glb"
+                iosSrc={usdzFor("burger")}
+                alt="Modelo 3D interativo de um hambúrguer"
+                deferred
+                exclusive
+                openLabel="Ver hambúrguer em 3D"
+                showArButton
+                arLabel="Ver na minha mesa"
+                className="h-[22rem] sm:h-[30rem]"
+              />
+            </SafeBlock>
             <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:justify-center">
               <Link
                 to="/demo"
@@ -218,12 +226,16 @@ function Landing() {
                 </figcaption>
               </figure>
               <div className="overflow-hidden rounded-3xl border border-border bg-card">
-                <ModelStage
-                  src="/models/grilled-steak.glb"
-                  alt="Modelo 3D interativo de um bife grelhado"
-                  lazy
-                  className="h-52 rounded-none border-0 sm:h-64"
-                />
+                <SafeBlock>
+                  <ModelStage
+                    src="/models/grilled-steak.glb"
+                    alt="Modelo 3D interativo de um bife grelhado"
+                    deferred
+                    exclusive
+                    openLabel="Ver em 3D"
+                    className="h-52 rounded-none border-0 sm:h-64"
+                  />
+                </SafeBlock>
                 <p className="px-4 py-3 text-xs tracking-[0.15em] text-brand uppercase">
                   3D interativo
                 </p>

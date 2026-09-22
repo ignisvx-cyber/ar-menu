@@ -7,6 +7,14 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
+  // O alvo padrão do Vite exclui o Safari 15 (iPhone 7 / iOS 15), que ainda
+  // não entende blocos estáticos de classe nem lookbehind em expressões
+  // regulares. Compilamos para um alvo que esses aparelhos executam.
+  vite: {
+    build: {
+      target: ["es2020", "safari15", "chrome87", "firefox78", "edge88"],
+    },
+  },
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
