@@ -71,7 +71,7 @@ export function HeroVideo({ src, poster, label }: HeroVideoProps) {
             playsInline
             preload="metadata"
             onPlay={() => claimPlayback(release)}
-            onError={release}
+            onError={(e) => { console.warn("HERO_VIDEO_ERROR", (e.currentTarget as HTMLVideoElement).error?.code, (e.currentTarget as HTMLVideoElement).error?.message); release(); }}
           />
         ) : (
           <>
