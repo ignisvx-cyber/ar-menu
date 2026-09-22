@@ -229,9 +229,8 @@ function Landing() {
                   <ModelStage
                     src="/models/grilled-steak.glb"
                     alt="Modelo 3D interativo de um bife grelhado"
-                    deferred
-                    exclusive
-                    openLabel="Ver em 3D"
+                    lazy
+
                     className="h-52 rounded-none border-0 sm:h-64"
                   />
                 </SafeBlock>
