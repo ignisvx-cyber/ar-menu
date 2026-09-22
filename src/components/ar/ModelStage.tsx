@@ -9,6 +9,7 @@ import {
 } from "react";
 
 import { claimModel, releaseModel } from "@/lib/model-playback";
+import { loadModelViewer } from "@/lib/model-viewer-loader";
 import { supportsWebgl } from "@/lib/device";
 import { cn } from "@/lib/utils";
 
@@ -151,7 +152,7 @@ export function ModelStage({
     }
     let cancelled = false;
     setState("loading");
-    import("@google/model-viewer")
+    loadModelViewer()
       .then(() => {
         if (!cancelled) setDefined(true);
       })
