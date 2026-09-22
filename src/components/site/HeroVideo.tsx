@@ -52,7 +52,7 @@ export function HeroVideo({ src, poster, label }: HeroVideoProps) {
     );
     observer.observe(node);
     return () => observer.disconnect();
-  }, [mounted]);
+  }, [mounted, showPlayButton]);
 
   // Tenta iniciar a reprodução; só cai para o botão se o navegador recusar.
   useEffect(() => {
