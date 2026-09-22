@@ -1,5 +1,3 @@
-import heroPizza from "@/assets/heroi-pizza.mp4.asset.json";
-import heroPizzaPoster from "@/assets/heroi-pizza-poster.jpg.asset.json";
 import pizza from "@/assets/pizza.mp4.asset.json";
 import pizzaPoster from "@/assets/pizza-poster.jpg.asset.json";
 import marmita from "@/assets/marmita.mp4.asset.json";
