@@ -166,7 +166,7 @@ function Landing() {
                 <HeroVideo
                   src={HERO_VIDEO_URL}
                   poster={HERO_POSTER_URL}
-                  label="Pizza vista sobre uma mesa em realidade aumentada"
+                  label="Hambúrguer visto sobre uma mesa em realidade aumentada"
                 />
               </SafeBlock>
             </div>
