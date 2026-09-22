@@ -13,9 +13,9 @@ import hamburguerPoster from "@/assets/hamburguer-poster.jpg.asset.json";
 import sushi from "@/assets/sushi.mp4.asset.json";
 import sushiPoster from "@/assets/sushi-poster.jpg.asset.json";
 
-/** Vídeo vertical principal exibido no celular do hero. */
-export const HERO_VIDEO_URL: string = heroPizza.url;
-export const HERO_POSTER_URL: string = heroPizzaPoster.url;
+/** Vídeo vertical principal exibido no celular do hero (hambúrguer). */
+export const HERO_VIDEO_URL: string = hamburguer.url;
+export const HERO_POSTER_URL: string = hamburguerPoster.url;
 
 export interface GalleryVideo {
   id: string;
