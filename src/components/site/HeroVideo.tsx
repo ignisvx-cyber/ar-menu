@@ -29,7 +29,6 @@ export function HeroVideo({ src, poster, label }: HeroVideoProps) {
   // Referência estável: evita que uma nova função a cada render cancele a si mesma.
   const releaseRef = useRef<() => void>(() => {});
   releaseRef.current = () => {
-    console.warn("HERO_RELEASE", new Error().stack);
     setMounted(false);
     setShowPlayButton(true);
   };
@@ -72,7 +71,7 @@ export function HeroVideo({ src, poster, label }: HeroVideoProps) {
             playsInline
             preload="metadata"
             onPlay={() => claimPlayback(release)}
-            onError={(e) => { console.warn("HERO_VIDEO_ERROR", (e.currentTarget as HTMLVideoElement).error?.code, (e.currentTarget as HTMLVideoElement).error?.message); release(); }}
+            onError={release}
           />
         ) : (
           <>
