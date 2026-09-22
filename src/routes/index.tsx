@@ -136,24 +136,26 @@ function Landing() {
         {/* HERO */}
         <section className="relative overflow-hidden px-4 pt-14 pb-20 sm:px-6">
           {/*
-            Brilho da marca: gradiente radial centralizado e de largura total,
-            sem caixa de tamanho fixo (evita o corte reto na lateral). Cores em
-            rgba para compatibilidade com o Safari do iOS 15, sem `filter: blur`.
+            Iluminação localizada atrás do smartphone: dois halos elípticos
+            centralizados (laranja discreto em cima, vinho/magenta difuso
+            embaixo). Sem caixa de largura fixa e sem `filter: blur`, para
+            compatibilidade com o Safari do iOS 15.
           */}
           <div
             aria-hidden
             className="pointer-events-none absolute inset-0"
             style={{
               backgroundImage: [
-                // Laranja quente atrás do título.
-                "radial-gradient(58% 34% at 50% 20%, rgba(255,152,23,0.30) 0%, rgba(255,152,23,0.12) 45%, transparent 72%)",
-                // Magenta atrás da moldura do celular.
-                "radial-gradient(46% 38% at 50% 62%, rgba(236,22,127,0.24) 0%, rgba(236,22,127,0.09) 48%, transparent 74%)",
-                // Vinho difuso espalhando pelas laterais e unindo as duas luzes.
-                "radial-gradient(80% 62% at 50% 44%, rgba(140,24,74,0.20) 0%, rgba(140,24,74,0.07) 50%, transparent 78%)",
+                // Reflexo muito sutil de laranja na região do título.
+                "radial-gradient(30% 16% at 50% 16%, rgba(255,152,23,0.10) 0%, rgba(255,152,23,0.04) 50%, transparent 78%)",
+                // Halo laranja quente atrás da parte superior do celular.
+                "radial-gradient(26% 18% at 50% 52%, rgba(255,152,23,0.20) 0%, rgba(255,152,23,0.07) 50%, transparent 80%)",
+                // Halo vinho/magenta amplo envolvendo o centro e a base do celular.
+                "radial-gradient(38% 30% at 50% 70%, rgba(198,26,110,0.20) 0%, rgba(140,24,74,0.08) 52%, transparent 82%)",
               ].join(", "),
             }}
           />
+
           <div className="relative mx-auto flex w-full max-w-3xl flex-col items-center text-center">
             <span className="text-brand text-xs font-semibold tracking-[0.3em] uppercase">
               Realidade aumentada para cardápios
