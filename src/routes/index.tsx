@@ -144,8 +144,14 @@ function Landing() {
             aria-hidden
             className="pointer-events-none absolute inset-0"
             style={{
-              backgroundImage:
-                "radial-gradient(42% 48% at 50% 36%, rgba(255,152,23,0.32) 0%, rgba(236,22,127,0.20) 40%, transparent 62%)",
+              backgroundImage: [
+                // Laranja quente atrás do título.
+                "radial-gradient(58% 34% at 50% 20%, rgba(255,152,23,0.30) 0%, rgba(255,152,23,0.12) 45%, transparent 72%)",
+                // Magenta atrás da moldura do celular.
+                "radial-gradient(46% 38% at 50% 62%, rgba(236,22,127,0.24) 0%, rgba(236,22,127,0.09) 48%, transparent 74%)",
+                // Vinho difuso espalhando pelas laterais e unindo as duas luzes.
+                "radial-gradient(80% 62% at 50% 44%, rgba(140,24,74,0.20) 0%, rgba(140,24,74,0.07) 50%, transparent 78%)",
+              ].join(", "),
             }}
           />
           <div className="relative mx-auto flex w-full max-w-3xl flex-col items-center text-center">
