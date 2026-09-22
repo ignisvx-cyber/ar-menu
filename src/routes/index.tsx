@@ -136,17 +136,16 @@ function Landing() {
         {/* HERO */}
         <section className="relative overflow-hidden px-4 pt-14 pb-20 sm:px-6">
           {/*
-            Brilho da marca desenhado com gradiente radial em vez de `filter: blur`.
-            O Safari do iPhone derruba a aba ao rasterizar um desfoque de 120px
-            em um elemento desse tamanho — o gradiente produz o mesmo efeito
-            visual sem custo de GPU.
+            Brilho da marca: gradiente radial centralizado e de largura total,
+            sem caixa de tamanho fixo (evita o corte reto na lateral). Cores em
+            rgba para compatibilidade com o Safari do iOS 15, sem `filter: blur`.
           */}
           <div
             aria-hidden
-            className="pointer-events-none absolute top-[-14rem] left-1/2 size-[40rem] -translate-x-1/2"
+            className="pointer-events-none absolute inset-0"
             style={{
               backgroundImage:
-                "radial-gradient(circle at 42% 45%, oklch(0.78 0.17 62 / 26%) 0%, oklch(0.6 0.25 2 / 18%) 38%, transparent 68%)",
+                "radial-gradient(60% 55% at 50% 38%, rgba(255,152,23,0.30) 0%, rgba(236,22,127,0.20) 42%, transparent 72%)",
             }}
           />
           <div className="relative mx-auto flex w-full max-w-3xl flex-col items-center text-center">
