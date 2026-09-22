@@ -106,7 +106,24 @@ export function HeroVideo({ src, poster, label }: HeroVideoProps) {
             ) : null}
           </>
         ) : (
-          <img src={poster} alt={label} className="size-full object-cover" decoding="async" />
+          <>
+            <img src={poster} alt={label} className="size-full object-cover" decoding="async" />
+            {showPlayButton ? (
+              <button
+                type="button"
+                onClick={() => {
+                  setShowPlayButton(false);
+                  setMounted(true);
+                }}
+                aria-label={`Reproduzir demonstração: ${label}`}
+                className="absolute inset-0 flex items-center justify-center bg-black/40"
+              >
+                <span className="flex size-14 items-center justify-center rounded-full bg-[image:var(--brand-gradient)] text-background">
+                  <Play className="size-6 translate-x-[1px]" fill="currentColor" />
+                </span>
+              </button>
+            ) : null}
+          </>
         )}
       </PhoneFrame>
     </div>
