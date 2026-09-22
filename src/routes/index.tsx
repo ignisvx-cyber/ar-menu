@@ -181,9 +181,8 @@ function Landing() {
                 src="/models/burger.glb"
                 iosSrc={usdzFor("burger")}
                 alt="Modelo 3D interativo de um hambúrguer"
-                deferred
+                lazy
                 exclusive
-                openLabel="Ver hambúrguer em 3D"
                 showArButton
                 arLabel="Ver na minha mesa"
                 className="h-[22rem] sm:h-[30rem]"
