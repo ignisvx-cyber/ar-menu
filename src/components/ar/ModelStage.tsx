@@ -1,6 +1,29 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ComponentType, type CSSProperties, type Ref } from "react";
 
 import { cn } from "@/lib/utils";
+
+/**
+ * Props aceitas pelo custom element <model-viewer>. Declaramos o elemento como
+ * um componente tipado para não depender de augmentação global de JSX.
+ */
+interface ModelViewerElementProps {
+  ref?: Ref<HTMLElement>;
+  src: string;
+  alt: string;
+  ar?: boolean;
+  "ar-modes"?: string;
+  "ar-placement"?: string;
+  "ar-scale"?: string;
+  "camera-controls"?: boolean;
+  "touch-action"?: string;
+  "shadow-intensity"?: string;
+  exposure?: string;
+  "interaction-prompt"?: string;
+  style?: CSSProperties;
+}
+
+const ModelViewerElement = "model-viewer" as unknown as ComponentType<ModelViewerElementProps>;
+
 
 export interface ModelStageProps {
   /** Caminho público do GLB, ex.: "/models/burger.glb". */
@@ -126,7 +149,7 @@ export function ModelStage({
         )}
       >
         {defined && state !== "error" ? (
-          <model-viewer
+          <ModelViewerElement
             ref={viewerRef as never}
             src={src}
             alt={alt}
