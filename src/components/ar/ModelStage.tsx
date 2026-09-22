@@ -162,8 +162,6 @@ export function ModelStage({
             shadow-intensity="1"
             exposure="1.05"
             interaction-prompt="none"
-            min-camera-orbit="auto auto auto"
-            max-camera-orbit="auto auto auto"
             style={{ width: "100%", height: "100%", backgroundColor: "transparent" }}
           />
         ) : null}
