@@ -1,7 +1,8 @@
 import { Play } from "lucide-react";
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { PhoneFrame } from "@/components/site/PhoneFrame";
+import { claimPlayback, releasePlayback } from "@/lib/video-playback";
 import { cn } from "@/lib/utils";
 
 export interface VideoPhoneProps {
@@ -10,56 +11,77 @@ export interface VideoPhoneProps {
   /** Imagem de capa exibida antes da reprodução. */
   poster?: string;
   className?: string;
-  /** Reproduz automaticamente em loop e sem som (usado no hero). */
-  auto?: boolean;
 }
 
 /**
  * Vídeo vertical dentro de uma moldura de smartphone.
  *
- * Fora do modo `auto`, o arquivo só é baixado quando o visitante toca no play
- * (`preload="none"`), evitando carregar toda a galeria de uma vez.
+ * Enquanto o visitante não toca no play, NENHUM elemento `<video>` existe na
+ * página — apenas a imagem de capa. O elemento é criado no toque e é desmontado
+ * assim que outro vídeo começa a tocar, garantindo um único decodificador de
+ * mídia ativo (requisito para o Safari do iPhone não encerrar a aba).
  */
-export function VideoPhone({ src, label, poster, className, auto = false }: VideoPhoneProps) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [started, setStarted] = useState(auto);
+export function VideoPhone({ src, label, poster, className }: VideoPhoneProps) {
+  const [active, setActive] = useState(false);
+  const releaseRef = useRef<(() => void) | null>(null);
 
-  const handlePlay = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    setStarted(true);
-    video.play().catch((error: unknown) => {
-      console.error("Não foi possível reproduzir o vídeo", error);
-    });
-  };
+  const stop = useCallback(() => {
+    setActive(false);
+  }, []);
+
+  useEffect(() => {
+    if (!active) return;
+    const release = () => {
+      stop();
+    };
+    releaseRef.current = release;
+    claimPlayback(release);
+    return () => {
+      releasePlayback(release);
+      releaseRef.current = null;
+    };
+  }, [active, stop]);
 
   return (
     <figure className={cn("flex flex-col items-center gap-3", className)}>
       <PhoneFrame>
-        <video
-          ref={videoRef}
-          src={src}
-          poster={poster}
-          className="size-full object-cover"
-          playsInline
-          muted
-          loop
-          controls={started && !auto}
-          autoPlay={auto}
-          preload={auto ? "auto" : "none"}
-        />
-        {!started ? (
-          <button
-            type="button"
-            onClick={handlePlay}
-            aria-label={`Reproduzir demonstração: ${label}`}
-            className="absolute inset-0 flex items-center justify-center bg-black/40 transition-colors hover:bg-black/25 focus-visible:ring-2 focus-visible:ring-[var(--brand-to)] focus-visible:outline-none"
-          >
-            <span className="flex size-14 items-center justify-center rounded-full bg-[image:var(--brand-gradient)] text-background">
-              <Play className="size-6 translate-x-[1px]" fill="currentColor" />
-            </span>
-          </button>
-        ) : null}
+        {active ? (
+          <video
+            src={src}
+            poster={poster}
+            className="size-full object-cover"
+            playsInline
+            muted
+            loop
+            controls
+            autoPlay
+            preload="metadata"
+            onError={stop}
+          />
+        ) : (
+          <>
+            {poster ? (
+              <img
+                src={poster}
+                alt=""
+                aria-hidden
+                className="size-full object-cover"
+                loading="lazy"
+                decoding="async"
+              />
+            ) : null}
+            <button
+              type="button"
+              onClick={() => setActive(true)}
+              aria-label={`Reproduzir demonstração: ${label}`}
+              className="absolute inset-0 flex items-center justify-center bg-black/40 transition-colors hover:bg-black/25 focus-visible:ring-2 focus-visible:ring-[var(--brand-to)] focus-visible:outline-none"
+            >
+              <span className="flex size-14 items-center justify-center rounded-full bg-[image:var(--brand-gradient)] text-background">
+                <Play className="size-6 translate-x-[1px]" fill="currentColor" />
+              </span>
+            </button>
+          </>
+        )}
       </PhoneFrame>
       <figcaption className="text-sm text-muted-foreground">{label}</figcaption>
     </figure>

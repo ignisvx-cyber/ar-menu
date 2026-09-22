@@ -1,7 +1,8 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
 import { ModelStage } from "@/components/ar/ModelStage";
-import { PhoneFrame } from "@/components/site/PhoneFrame";
+import { usdzFor } from "@/lib/usdz";
+import { HeroVideo } from "@/components/site/HeroVideo";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { VideoPhone } from "@/components/site/VideoPhone";
@@ -133,10 +134,19 @@ function Landing() {
       <main className="pt-16">
         {/* HERO */}
         <section className="relative overflow-hidden px-4 pt-14 pb-20 sm:px-6">
+          {/*
+            Brilho da marca desenhado com gradiente radial em vez de `filter: blur`.
+            O Safari do iPhone derruba a aba ao rasterizar um desfoque de 120px
+            em um elemento desse tamanho — o gradiente produz o mesmo efeito
+            visual sem custo de GPU.
+          */}
           <div
             aria-hidden
-            className="pointer-events-none absolute top-[-12rem] left-1/2 size-[36rem] -translate-x-1/2 rounded-full opacity-20 blur-[120px]"
-            style={{ backgroundImage: "var(--brand-gradient)" }}
+            className="pointer-events-none absolute top-[-14rem] left-1/2 size-[40rem] -translate-x-1/2"
+            style={{
+              backgroundImage:
+                "radial-gradient(circle at 42% 45%, oklch(0.78 0.17 62 / 26%) 0%, oklch(0.6 0.25 2 / 18%) 38%, transparent 68%)",
+            }}
           />
           <div className="relative mx-auto flex w-full max-w-3xl flex-col items-center text-center">
             <span className="text-brand text-xs font-semibold tracking-[0.3em] uppercase">
@@ -151,18 +161,11 @@ function Landing() {
             </p>
 
             <div className="mt-10 w-[15rem] sm:w-[17rem]">
-              <PhoneFrame>
-                <video
-                  src={HERO_VIDEO_URL}
-                  poster={HERO_POSTER_URL}
-                  className="size-full object-cover"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="auto"
-                />
-              </PhoneFrame>
+              <HeroVideo
+                src={HERO_VIDEO_URL}
+                poster={HERO_POSTER_URL}
+                label="Pizza vista sobre uma mesa em realidade aumentada"
+              />
             </div>
           </div>
         </section>
@@ -172,6 +175,7 @@ function Landing() {
           <div className="mx-auto w-full max-w-3xl">
             <ModelStage
               src="/models/burger.glb"
+              iosSrc={usdzFor("burger")}
               alt="Modelo 3D interativo de um hambúrguer"
               showArButton
               arLabel="Ver na minha mesa"
