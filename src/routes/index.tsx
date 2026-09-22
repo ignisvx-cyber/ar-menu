@@ -136,25 +136,28 @@ function Landing() {
         {/* HERO */}
         <section className="relative overflow-hidden px-4 pt-14 pb-20 sm:px-6">
           {/*
-            Iluminação localizada atrás do smartphone: dois halos elípticos
-            centralizados (laranja discreto em cima, vinho/magenta difuso
-            embaixo). Sem caixa de largura fixa e sem `filter: blur`, para
-            compatibilidade com o Safari do iOS 15.
+            Glow do hero: UMA única camada de fundo com radial-gradients
+            concêntricos (mesmo centro, atrás do smartphone), do núcleo laranja
+            ao vinho/magenta difuso, com dissolução progressiva no preto.
+            Sem `filter: blur` — compatível com o Safari do iOS 15.
           */}
           <div
             aria-hidden
             className="pointer-events-none absolute inset-0"
             style={{
               backgroundImage: [
-                // Reflexo muito sutil de laranja na região do título.
-                "radial-gradient(30% 16% at 50% 16%, rgba(255,152,23,0.10) 0%, rgba(255,152,23,0.04) 50%, transparent 78%)",
-                // Halo laranja quente atrás da parte superior do celular.
-                "radial-gradient(26% 18% at 50% 52%, rgba(255,152,23,0.20) 0%, rgba(255,152,23,0.07) 50%, transparent 80%)",
-                // Halo vinho/magenta amplo envolvendo o centro e a base do celular.
-                "radial-gradient(38% 30% at 50% 70%, rgba(198,26,110,0.20) 0%, rgba(140,24,74,0.08) 52%, transparent 82%)",
+                // Núcleo quente atrás do celular.
+                "radial-gradient(ellipse 34% 26% at 50% 58%, rgba(255,152,23,0.22) 0%, rgba(255,120,40,0.13) 38%, rgba(232,60,110,0.07) 64%, rgba(0,0,0,0) 88%)",
+                // Difusão intermediária laranja -> magenta.
+                "radial-gradient(ellipse 52% 44% at 50% 58%, rgba(226,60,105,0.14) 0%, rgba(176,32,92,0.07) 46%, rgba(0,0,0,0) 86%)",
+                // Vinho amplo dissolvendo em todas as direções.
+                "radial-gradient(ellipse 78% 70% at 50% 56%, rgba(120,20,68,0.13) 0%, rgba(90,16,54,0.05) 50%, rgba(0,0,0,0) 88%)",
+                // Reflexo tênue subindo até o título, integrado ao mesmo fluxo.
+                "radial-gradient(ellipse 46% 34% at 50% 30%, rgba(255,152,23,0.07) 0%, rgba(255,152,23,0.03) 46%, rgba(0,0,0,0) 84%)",
               ].join(", "),
             }}
           />
+
 
           <div className="relative mx-auto flex w-full max-w-3xl flex-col items-center text-center">
             <span className="text-brand text-xs font-semibold tracking-[0.3em] uppercase">
