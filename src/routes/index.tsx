@@ -13,7 +13,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import fotoPrato from "@/assets/foto-prato.jpg.asset.json";
+import fotoComumSteak from "@/assets/foto-comum-steak.png.asset.json";
 import { getContactHref } from "@/lib/contact";
 import {
   GALLERY_VIDEOS,
@@ -216,7 +216,7 @@ function Landing() {
             <div className="grid grid-cols-2 gap-4">
               <figure className="overflow-hidden rounded-3xl border border-border bg-card">
                 <img
-                  src={fotoPrato.url}
+                  src={fotoComumSteak.url}
                   alt="Imagem estática de um prato, como em um cardápio tradicional"
                   className="h-52 w-full object-cover sm:h-64"
                   loading="lazy"
