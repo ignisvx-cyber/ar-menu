@@ -145,7 +145,7 @@ function Landing() {
             className="pointer-events-none absolute inset-0"
             style={{
               backgroundImage:
-                "radial-gradient(60% 55% at 50% 38%, rgba(255,152,23,0.30) 0%, rgba(236,22,127,0.20) 42%, transparent 72%)",
+                "radial-gradient(42% 48% at 50% 36%, rgba(255,152,23,0.32) 0%, rgba(236,22,127,0.20) 40%, transparent 62%)",
             }}
           />
           <div className="relative mx-auto flex w-full max-w-3xl flex-col items-center text-center">
