@@ -153,7 +153,9 @@
 }
 @media (min-width: 1024px) {
   .hero-photo {
-    -webkit-mask-image: radial-gradient(ellipse 80% 88% at 64% 50%, #000 55%, transparent 100%);
-    mask-image: radial-gradient(ellipse 80% 88% at 64% 50%, #000 55%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 32%, #000 94%, transparent 100%), linear-gradient(to bottom, transparent 0%, #000 10%, #000 90%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(to right, transparent 0%, #000 32%, #000 94%, transparent 100%), linear-gradient(to bottom, transparent 0%, #000 10%, #000 90%, transparent 100%);
+    mask-composite: intersect;
   }
 }
