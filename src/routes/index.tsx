@@ -193,11 +193,11 @@ function Landing() {
                 Demonstração interativa
               </span>
               <h2 className="mt-3 text-3xl font-bold text-balance sm:text-4xl">
-                Escolha um prato e <span className="text-brand">gire em 3D.</span>
+                Veja o prato no <span className="text-brand">tamanho real.</span>
               </h2>
-              <p className="mt-4 text-muted-foreground">
-                Modelos reais, carregados um de cada vez. Em aparelhos compatíveis, toque em “Ver na
-                minha mesa” para posicionar o prato com a câmera.
+              <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
+                Cada modelo é preparado com as medidas do prato servido pelo restaurante, para que
+                seus clientes possam visualizar suas proporções na própria mesa antes de pedir.
               </p>
             </div>
             <DishShowcase />
