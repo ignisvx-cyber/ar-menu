@@ -33,3 +33,14 @@ export function loadModelViewer(): Promise<void> {
 
   return loading;
 }
+
+/** Adianta o download do visualizador quando o navegador fica ocioso após abrir a página. */
+export function warmModelViewer(): void {
+  if (typeof window === "undefined") return;
+  const start = () => void loadModelViewer().catch(() => undefined);
+  const idle = (window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number })
+    .requestIdleCallback;
+  const kick = () => (idle ? idle(start, { timeout: 4000 }) : window.setTimeout(start, 2500));
+  if (document.readyState === "complete") kick();
+  else window.addEventListener("load", kick, { once: true });
+}
