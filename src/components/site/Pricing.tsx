@@ -12,16 +12,19 @@ const FEATURES = [
   "Manutenção inclusa",
 ] as const;
 
+const PRINTED_QR = "Material impresso com QR Code personalizado";
+
 const PLANS: readonly {
   id: WhatsappContext;
   name: string;
   price: string;
   term: string;
   featured?: boolean;
+  extras?: readonly string[];
 }[] = [
   { id: "start", name: "Start", price: "1.199", term: "Contrato de 3 meses" },
-  { id: "plus", name: "Plus", price: "897", term: "Contrato de 6 meses", featured: true },
-  { id: "pro", name: "Pro", price: "699", term: "Contrato de 12 meses" },
+  { id: "plus", name: "Plus", price: "897", term: "Contrato de 6 meses", featured: true, extras: [PRINTED_QR] },
+  { id: "pro", name: "Pro", price: "699", term: "Contrato de 12 meses", extras: [PRINTED_QR] },
 ];
 
 /** Planos comerciais: valores mensais; 3, 6 e 12 meses são a duração do contrato. */
@@ -74,7 +77,7 @@ export function Pricing() {
               <div className="my-6 h-px bg-border" />
 
               <ul className="flex flex-col gap-3">
-                {FEATURES.map((feature) => (
+                {[...FEATURES, ...(plan.extras ?? [])].map((feature) => (
                   <li key={feature} className="flex items-start gap-3 text-sm text-muted-foreground">
                     <Check
                       aria-hidden

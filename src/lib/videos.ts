@@ -22,6 +22,12 @@ export interface GalleryVideo {
   poster: string;
 }
 
+/**
+ * Galeria "Veja a experiência acontecendo." — OCULTA até chegarem os vídeos próprios.
+ * Para reativar: substitua os arquivos abaixo e mude para `true`.
+ */
+export const GALLERY_ENABLED = false;
+
 /** Um item por vídeo próprio enviado — nada é inventado para completar a fileira. */
 export const GALLERY_VIDEOS: readonly GalleryVideo[] = [
   { id: "pizza", label: "Pizza", url: pizza.url, poster: pizzaPoster.url },
