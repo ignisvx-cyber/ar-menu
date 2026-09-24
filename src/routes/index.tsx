@@ -165,18 +165,22 @@ function Landing() {
             </div>
 
             {/* Uma única imagem por aparelho: vertical no celular, horizontal no desktop. */}
-            <div className="relative -mt-10 lg:mt-0">
-              <picture>
-                <source media="(min-width: 1024px)" srcSet={heroDesktop.url} width={1672} height={941} />
-                <img
-                  src={heroMobile.url}
-                  width={800}
-                  height={1422}
-                  alt="Smartphone sobre a mesa de um restaurante elegante exibindo um prato com o menuAR"
-                  fetchPriority="high"
-                  className="hero-photo aspect-[941/1120] w-full object-cover object-bottom lg:aspect-[1672/941] lg:object-center"
-                />
-              </picture>
+            <div className="relative px-5 pt-10 pb-4 sm:px-6 lg:py-16 lg:pr-8 lg:pl-4">
+              <div className="hero-frame relative overflow-hidden rounded-[1.75rem] border border-border/60 lg:rounded-[2.25rem]">
+                <picture>
+                  <source media="(min-width: 1024px)" srcSet={heroDesktop.url} width={1672} height={941} />
+                  <img
+                    src={heroMobile.url}
+                    width={800}
+                    height={1422}
+                    alt="Smartphone sobre a mesa de um restaurante elegante exibindo um prato com o menuAR"
+                    fetchPriority="high"
+                    className="block aspect-[1/1] w-full object-cover object-[72%_60%] sm:aspect-[4/3] lg:aspect-[6/5] lg:object-[68%_50%]"
+                  />
+                </picture>
+                <div aria-hidden className="hero-frame-shade pointer-events-none absolute inset-0" />
+                <div aria-hidden className="pointer-events-none absolute inset-x-10 bottom-0 h-px bg-[image:var(--brand-gradient)] opacity-70" />
+              </div>
             </div>
           </div>
         </section>
