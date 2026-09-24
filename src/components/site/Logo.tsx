@@ -19,7 +19,7 @@ export function Logo({ className, withSymbol = true }: LogoProps) {
           aria-hidden
           width={400}
           height={263}
-          className="h-[96%] w-auto"
+          className="h-[58%] w-auto"
           draggable={false}
         />
       ) : null}
