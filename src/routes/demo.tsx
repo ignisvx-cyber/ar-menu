@@ -68,6 +68,7 @@ function DemoMenu() {
                   iosSrc={usdzFor(item.id)}
                   alt={`Modelo 3D de ${item.name.toLowerCase()}`}
                   lazy
+                  lazyMargin="150px 0px"
                   showArButton
                   className="h-72 bg-background"
                 />
