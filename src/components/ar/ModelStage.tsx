@@ -72,6 +72,8 @@ export interface ModelStageProps {
   showArButton?: boolean;
   /** Rótulo do botão de AR. */
   arLabel?: string;
+  /** Antecedência com que o modo lazy começa a baixar o prato. */
+  lazyMargin?: string;
 }
 
 type LoadState = "idle" | "loading" | "ready" | "error";
@@ -94,6 +96,7 @@ export function ModelStage({
   openLabel = "Ver em 3D",
   showArButton = false,
   arLabel = "Ver na minha mesa",
+  lazyMargin = "900px 0px",
 }: ModelStageProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<HTMLElement & { activateAR?: () => void; canActivateAR?: boolean }>(
@@ -132,11 +135,11 @@ export function ModelStage({
           observer.disconnect();
         }
       },
-      { rootMargin: "900px 0px" },
+      { rootMargin: lazyMargin },
     );
     observer.observe(node);
     return () => observer.disconnect();
-  }, [lazy, deferred, visible]);
+  }, [lazy, deferred, visible, lazyMargin]);
 
   // Importa o custom element somente no navegador.
   useEffect(() => {
