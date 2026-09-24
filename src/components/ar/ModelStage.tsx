@@ -9,7 +9,7 @@ import {
 } from "react";
 
 import { claimModel, releaseModel } from "@/lib/model-playback";
-import { loadModelViewer } from "@/lib/model-viewer-loader";
+import { loadModelViewer, warmModelViewer } from "@/lib/model-viewer-loader";
 import { supportsWebgl } from "@/lib/device";
 import { cn } from "@/lib/utils";
 
@@ -115,6 +115,7 @@ export function ModelStage({
   };
   const release = useCallback(() => releaseRef.current(), []);
   useEffect(() => () => releaseModel(release), [release]);
+  useEffect(() => warmModelViewer(), []);
 
   // Carrega o modelo apenas quando o card entra na tela (modo lazy).
   useEffect(() => {
@@ -131,7 +132,7 @@ export function ModelStage({
           observer.disconnect();
         }
       },
-      { rootMargin: "300px 0px" },
+      { rootMargin: "900px 0px" },
     );
     observer.observe(node);
     return () => observer.disconnect();
@@ -146,6 +147,16 @@ export function ModelStage({
       return;
     }
     if (exclusive) claimModel(release);
+    // Baixa o arquivo do prato em paralelo com o visualizador (mesmo arquivo, sem alteração).
+    if (!document.querySelector(`link[data-model-preload="${CSS.escape(src)}"]`)) {
+      const link = document.createElement("link");
+      link.rel = "preload";
+      link.as = "fetch";
+      link.crossOrigin = "anonymous";
+      link.href = src;
+      link.dataset["modelPreload"] = src;
+      document.head.appendChild(link);
+    }
     if (defined) {
       setState((value) => (value === "idle" ? "loading" : value));
       return;
