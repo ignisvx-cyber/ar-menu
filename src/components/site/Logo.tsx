@@ -1,20 +1,36 @@
 import logo from "@/assets/logo-menuar.png.asset.json";
+import symbol from "@/assets/menuar-symbol.webp.asset.json";
 import { cn } from "@/lib/utils";
 
 export interface LogoProps {
   className?: string;
+  /** Exibe o símbolo (chapéu de chef) ao lado da logo escrita. */
+  withSymbol?: boolean;
 }
 
-/** Logo oficial do menuAR, usada exatamente como foi fornecida. */
-export function Logo({ className }: LogoProps) {
+/** Assinatura do menuAR: símbolo oficial + logo escrita, sem alterações. */
+export function Logo({ className, withSymbol = true }: LogoProps) {
   return (
-    <img
-      src={logo.url}
-      alt="menuAR"
-      width={1920}
-      height={620}
-      className={cn("h-7 w-auto select-none", className)}
-      draggable={false}
-    />
+    <span className={cn("inline-flex h-7 items-center gap-[0.35em] select-none", className)}>
+      {withSymbol ? (
+        <img
+          src={symbol.url}
+          alt=""
+          aria-hidden
+          width={400}
+          height={263}
+          className="h-[118%] w-auto"
+          draggable={false}
+        />
+      ) : null}
+      <img
+        src={logo.url}
+        alt="menuAR"
+        width={1920}
+        height={620}
+        className="h-full w-auto"
+        draggable={false}
+      />
+    </span>
   );
 }

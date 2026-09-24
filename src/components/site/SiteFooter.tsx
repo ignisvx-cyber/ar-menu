@@ -1,11 +1,10 @@
 import { Link } from "@tanstack/react-router";
 
 import { Logo } from "@/components/site/Logo";
-import { getContactHref } from "@/lib/contact";
+import { WHATSAPP_DISPLAY, whatsappHref } from "@/lib/contact";
 
 /** Rodapé com logo, descrição curta e links reais. */
 export function SiteFooter() {
-  const contactHref = getContactHref();
 
   return (
     <footer className="border-t border-border px-4 py-12 sm:px-6">
@@ -28,19 +27,23 @@ export function SiteFooter() {
           >
             Como funciona
           </a>
+          <a href="/#planos" className="text-muted-foreground transition-colors hover:text-foreground">
+            Planos
+          </a>
           <a
             href="/#perguntas"
             className="text-muted-foreground transition-colors hover:text-foreground"
           >
             Perguntas frequentes
           </a>
-          {contactHref ? (
-            <a href={contactHref} className="text-muted-foreground transition-colors hover:text-foreground">
-              Falar com o menuAR
-            </a>
-          ) : (
-            <span className="text-muted-foreground/60">Canal de contato em configuração</span>
-          )}
+          <a
+            href={whatsappHref("footer")}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-muted-foreground transition-colors hover:text-foreground"
+          >
+            WhatsApp {WHATSAPP_DISPLAY}
+          </a>
         </nav>
       </div>
 

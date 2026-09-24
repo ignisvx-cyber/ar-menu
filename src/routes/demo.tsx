@@ -13,12 +13,12 @@ export const Route = createFileRoute("/demo")({
       {
         name: "description",
         content:
-          "Cardápio fictício do menuAR com sete pratos em 3D interativo e tentativa de realidade aumentada em aparelhos compatíveis.",
+          "Cardápio fictício do menuAR com nove pratos em 3D interativo e tentativa de realidade aumentada em aparelhos compatíveis.",
       },
       { property: "og:title", content: "Cardápio demonstrativo — menuAR" },
       {
         property: "og:description",
-        content: "Sete pratos em 3D para explorar e tentar visualizar sobre a sua mesa.",
+        content: "Nove pratos em 3D para explorar e tentar visualizar sobre a sua mesa.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

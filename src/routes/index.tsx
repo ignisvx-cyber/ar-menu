@@ -1,8 +1,6 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
 import { ModelStage } from "@/components/ar/ModelStage";
-import { usdzFor } from "@/lib/usdz";
-import { HeroVideo } from "@/components/site/HeroVideo";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { SafeBlock } from "@/components/site/SafeBlock";
 import { SiteHeader } from "@/components/site/SiteHeader";
@@ -14,14 +12,16 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import fotoComumSteak from "@/assets/foto-comum-steak.png.asset.json";
-import { getContactHref } from "@/lib/contact";
-import {
-  GALLERY_VIDEOS,
-  HERO_POSTER_URL,
-  HERO_VIDEO_URL,
-  PROCESS_POSTER_URL,
-  PROCESS_VIDEO_URL,
-} from "@/lib/videos";
+import heroDesktop from "@/assets/menuar-hero-desktop.webp.asset.json";
+import heroMobile from "@/assets/menuar-hero-mobile.webp.asset.json";
+import { Logo } from "@/components/site/Logo";
+import { DishShowcase } from "@/components/site/DishShowcase";
+import { Pricing } from "@/components/site/Pricing";
+import { whatsappHref } from "@/lib/contact";
+import { GALLERY_VIDEOS } from "@/lib/videos";
+
+/** Galeria sem o vídeo da marmita, removido da página inicial. */
+const HOME_GALLERY = GALLERY_VIDEOS.filter((video) => video.id !== "marmita");
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -105,7 +105,7 @@ const FAQ = [
   },
   {
     q: "O alimento aparece em tamanho real?",
-    a: "Os modelos podem ser configurados com as medidas dos pratos reais. Os sete modelos do cardápio demonstrativo utilizam dimensões aproximadas e servem apenas para testar a experiência.",
+    a: "Os modelos podem ser configurados com as medidas dos pratos reais. Os modelos do cardápio demonstrativo utilizam dimensões aproximadas e servem apenas para testar a experiência.",
   },
   {
     q: "Preciso trocar meu cardápio atual?",
@@ -121,87 +121,86 @@ const FAQ = [
   },
   {
     q: "Posso conhecer a experiência antes de contratar?",
-    a: "Sim. Disponibilizamos um cardápio demonstrativo fictício com sete pratos para explorar.",
+    a: "Sim. Disponibilizamos um cardápio demonstrativo fictício com nove pratos para explorar.",
   },
 ] as const;
 
 function Landing() {
-  const contactHref = getContactHref();
-
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen overflow-x-hidden bg-background">
       <SiteHeader />
 
       <main className="pt-16">
         {/* HERO */}
-        <section className="relative overflow-hidden px-4 pt-14 pb-20 sm:px-6">
-          {/*
-            Glow do hero: UMA única camada de fundo com radial-gradients
-            concêntricos (mesmo centro, atrás do smartphone), do núcleo laranja
-            ao vinho/magenta difuso, com dissolução progressiva no preto.
-            Sem `filter: blur` — compatível com o Safari do iOS 15.
-          */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0"
-            style={{
-              backgroundImage: [
-                // Núcleo quente atrás do celular.
-                "radial-gradient(ellipse 34% 26% at 50% 58%, rgba(255,152,23,0.22) 0%, rgba(255,120,40,0.13) 38%, rgba(232,60,110,0.07) 64%, rgba(0,0,0,0) 88%)",
-                // Difusão intermediária laranja -> magenta.
-                "radial-gradient(ellipse 52% 44% at 50% 58%, rgba(226,60,105,0.14) 0%, rgba(176,32,92,0.07) 46%, rgba(0,0,0,0) 86%)",
-                // Vinho amplo dissolvendo em todas as direções.
-                "radial-gradient(ellipse 78% 70% at 50% 56%, rgba(120,20,68,0.13) 0%, rgba(90,16,54,0.05) 50%, rgba(0,0,0,0) 88%)",
-                // Reflexo tênue subindo até o título, integrado ao mesmo fluxo.
-                "radial-gradient(ellipse 46% 34% at 50% 30%, rgba(255,152,23,0.07) 0%, rgba(255,152,23,0.03) 46%, rgba(0,0,0,0) 84%)",
-              ].join(", "),
-            }}
-          />
+        <section className="relative">
+          <div className="mx-auto grid w-full max-w-7xl items-center lg:min-h-[calc(100vh-4rem)] lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-4">
+            <div className="relative z-10 flex flex-col items-center px-5 pt-10 text-center sm:px-6 lg:items-start lg:py-16 lg:pl-8 lg:text-left">
+              <Logo className="h-9 sm:h-11" />
+              <span className="mt-8 text-[0.7rem] font-semibold tracking-[0.3em] text-muted-foreground uppercase">
+                Realidade aumentada para cardápios
+              </span>
+              <h1 className="mt-4 text-[2.4rem] leading-[1.04] font-extrabold text-balance sm:text-6xl lg:text-[4.1rem]">
+                O futuro do seu cardápio <span className="text-brand">hoje.</span>
+              </h1>
+              <p className="mt-5 max-w-md text-base text-muted-foreground sm:text-lg">
+                Seus clientes exploram os pratos em 3D e os veem sobre a própria mesa, direto pelo
+                celular — sem instalar nenhum aplicativo.
+              </p>
+              <div className="mt-8 flex w-full max-w-sm flex-col gap-3 sm:max-w-none sm:flex-row sm:justify-center lg:justify-start">
+                <a
+                  href={whatsappHref("hero")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex min-h-12 items-center justify-center rounded-full bg-[image:var(--brand-gradient)] px-7 text-sm font-semibold text-background shadow-[0_10px_30px_-12px_var(--brand-glow)] transition-opacity hover:opacity-90"
+                >
+                  Quero no meu restaurante
+                </a>
+                <a
+                  href="#demonstracao"
+                  className="inline-flex min-h-12 items-center justify-center rounded-full border border-border px-7 text-sm font-semibold text-foreground transition-colors hover:bg-accent"
+                >
+                  Ver demonstração
+                </a>
+              </div>
+            </div>
 
-
-          <div className="relative mx-auto flex w-full max-w-3xl flex-col items-center text-center">
-            <span className="text-brand text-xs font-semibold tracking-[0.3em] uppercase">
-              Realidade aumentada para cardápios
-            </span>
-            <h1 className="mt-5 text-4xl leading-[1.05] font-extrabold text-balance sm:text-6xl">
-              Veja o prato na sua mesa.{" "}
-              <span className="text-brand">Antes mesmo de pedir.</span>
-            </h1>
-            <p className="mt-5 max-w-xl text-base text-muted-foreground sm:text-lg">
-              Explore os pratos em 3D e descubra como eles ficam na sua mesa, direto pelo celular.
-            </p>
-
-            <div className="mt-10 w-[15rem] sm:w-[17rem]">
-              <SafeBlock>
-                <HeroVideo
-                  src={HERO_VIDEO_URL}
-                  poster={HERO_POSTER_URL}
-                  label="Hambúrguer visto sobre uma mesa em realidade aumentada"
+            {/* Uma única imagem por aparelho: vertical no celular, horizontal no desktop. */}
+            <div className="relative -mt-10 lg:mt-0">
+              <picture>
+                <source media="(min-width: 1024px)" srcSet={heroDesktop.url} width={1672} height={941} />
+                <img
+                  src={heroMobile.url}
+                  width={800}
+                  height={1422}
+                  alt="Smartphone sobre a mesa de um restaurante elegante exibindo um prato com o menuAR"
+                  fetchPriority="high"
+                  className="hero-photo aspect-[941/1120] w-full object-cover object-bottom lg:aspect-[1672/941] lg:object-center"
                 />
-              </SafeBlock>
+              </picture>
             </div>
           </div>
         </section>
 
-        {/* HAMBÚRGUER 3D */}
-        <section id="demonstracao" className="px-4 py-16 sm:px-6">
-          <div className="mx-auto w-full max-w-3xl">
-            <SafeBlock>
-              <ModelStage
-                src="/models/burger.glb"
-                iosSrc={usdzFor("burger")}
-                alt="Modelo 3D interativo de um hambúrguer"
-                lazy
-                exclusive
-                showArButton
-                arLabel="Ver na minha mesa"
-                className="h-[22rem] sm:h-[30rem]"
-              />
-            </SafeBlock>
-            <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:justify-center">
+        {/* QUATRO PRATOS EM 3D */}
+        <section id="demonstracao" className="scroll-mt-16 px-4 pt-16 pb-16 sm:px-6 lg:pt-10">
+          <div className="mx-auto w-full max-w-6xl">
+            <div className="mx-auto max-w-2xl text-center">
+              <span className="text-[0.7rem] font-semibold tracking-[0.3em] text-muted-foreground uppercase">
+                Demonstração interativa
+              </span>
+              <h2 className="mt-3 text-3xl font-bold text-balance sm:text-4xl">
+                Escolha um prato e <span className="text-brand">gire em 3D.</span>
+              </h2>
+              <p className="mt-4 text-muted-foreground">
+                Modelos reais, carregados um de cada vez. Em aparelhos compatíveis, toque em “Ver na
+                minha mesa” para posicionar o prato com a câmera.
+              </p>
+            </div>
+            <DishShowcase />
+            <div className="mt-6 flex justify-center">
               <Link
                 to="/demo"
-                className="inline-flex min-h-12 items-center justify-center rounded-full border border-border bg-card px-7 text-sm font-semibold text-foreground transition-colors hover:bg-accent sm:min-w-56"
+                className="inline-flex min-h-12 items-center justify-center rounded-full border border-border bg-card px-7 text-sm font-semibold text-foreground transition-colors hover:bg-accent"
               >
                 Ver um cardápio inteiro
               </Link>
@@ -210,7 +209,7 @@ function Landing() {
         </section>
 
         {/* FOTO x 3D */}
-        <section id="como-funciona" className="px-4 py-16 sm:px-6">
+        <section id="como-funciona" className="scroll-mt-16 px-4 py-16 sm:px-6">
           <div className="mx-auto grid w-full max-w-6xl items-center gap-10 md:grid-cols-2">
             <div>
               <h2 className="text-3xl font-bold text-balance sm:text-4xl">
@@ -240,7 +239,6 @@ function Landing() {
                     src="/models/grilled-steak.glb"
                     alt="Modelo 3D interativo de um bife grelhado"
                     lazy
-
                     className="h-52 rounded-none border-0 sm:h-64"
                   />
                 </SafeBlock>
@@ -270,41 +268,34 @@ function Landing() {
           </div>
         </section>
 
-        {/* PRODUÇÃO DOS MODELOS */}
+        {/* PRODUÇÃO DOS MODELOS — linha do tempo, sem vídeo */}
         <section className="px-4 py-16 sm:px-6">
-          <div className="mx-auto grid w-full max-w-6xl items-center gap-10 md:grid-cols-[minmax(0,15rem)_1fr] md:gap-14">
-            <div className="mx-auto w-[14rem] md:mx-0 md:w-full">
-              <VideoPhone
-                src={PROCESS_VIDEO_URL}
-                poster={PROCESS_POSTER_URL}
-                label="Preparação do modelo"
-              />
-            </div>
-            <div>
+          <div className="mx-auto w-full max-w-6xl">
+            <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] md:items-end">
               <h2 className="text-3xl font-bold text-balance sm:text-4xl">
                 Do prato real à <span className="text-brand">experiência digital.</span>
               </h2>
-              <p className="mt-4 text-muted-foreground">
+              <p className="text-muted-foreground md:pb-1">
                 Nós cuidamos da preparação dos modelos para que seus clientes possam explorar seus
-                pratos em 3D.
+                pratos em 3D. O restaurante não precisa lidar com nenhuma etapa técnica.
               </p>
-              <ul className="mt-8 flex flex-col gap-4">
-                {PRODUCTION.map((item) => (
-                  <li
-                    key={item.number}
-                    className="flex gap-4 rounded-3xl border border-border bg-card p-5"
-                  >
-                    <span className="text-brand text-sm font-bold tracking-widest">
-                      {item.number}
-                    </span>
-                    <div>
-                      <h3 className="font-semibold">{item.title}</h3>
-                      <p className="mt-1 text-sm text-muted-foreground">{item.text}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
             </div>
+            <ol className="relative mt-10 grid gap-4 md:grid-cols-3">
+              <span
+                aria-hidden
+                className="pointer-events-none absolute top-[2.15rem] right-[16%] left-[16%] hidden h-px opacity-60 md:block"
+                style={{ backgroundImage: "var(--brand-gradient)" }}
+              />
+              {PRODUCTION.map((item) => (
+                <li key={item.number} className="relative rounded-3xl border border-border bg-card p-6">
+                  <span className="relative inline-flex size-9 items-center justify-center rounded-full bg-[image:var(--brand-gradient)] text-xs font-bold text-background">
+                    {item.number}
+                  </span>
+                  <h3 className="mt-4 text-lg font-semibold">{item.title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">{item.text}</p>
+                </li>
+              ))}
+            </ol>
           </div>
         </section>
 
@@ -320,7 +311,7 @@ function Landing() {
             </p>
           </div>
           <ul className="mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto px-4 pb-4 sm:px-6 lg:mx-auto lg:max-w-6xl lg:snap-none lg:overflow-visible">
-            {GALLERY_VIDEOS.map((video) => (
+            {HOME_GALLERY.map((video) => (
               <li key={video.id} className="w-[10.5rem] flex-none snap-center lg:w-auto lg:flex-1">
                 <VideoPhone src={video.url} poster={video.poster} label={video.label} />
               </li>
@@ -347,17 +338,28 @@ function Landing() {
                 </li>
               ))}
             </ul>
-            <Link
-              to="/demo"
-              className="mt-10 inline-flex min-h-12 items-center justify-center rounded-full bg-[image:var(--brand-gradient)] px-7 text-sm font-semibold text-background transition-opacity hover:opacity-90"
-            >
-              Explorar demonstração
-            </Link>
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+              <a
+                href="#planos"
+                className="inline-flex min-h-12 items-center justify-center rounded-full bg-[image:var(--brand-gradient)] px-7 text-sm font-semibold text-background transition-opacity hover:opacity-90"
+              >
+                Conhecer os planos
+              </a>
+              <Link
+                to="/demo"
+                className="inline-flex min-h-12 items-center justify-center rounded-full border border-border px-7 text-sm font-semibold text-foreground transition-colors hover:bg-accent"
+              >
+                Explorar demonstração
+              </Link>
+            </div>
           </div>
         </section>
 
+        {/* PLANOS */}
+        <Pricing />
+
         {/* FAQ */}
-        <section id="perguntas" className="px-4 py-16 sm:px-6">
+        <section id="perguntas" className="scroll-mt-16 px-4 py-16 sm:px-6">
           <div className="mx-auto w-full max-w-3xl">
             <h2 className="text-3xl font-bold text-balance sm:text-4xl">
               Tudo o que você <span className="text-brand">precisa saber.</span>
@@ -382,7 +384,7 @@ function Landing() {
         </section>
 
         {/* CHAMADA FINAL */}
-        <section id="contato" className="px-4 pt-8 pb-20 sm:px-6">
+        <section id="contato" className="scroll-mt-16 px-4 pt-8 pb-20 sm:px-6">
           <div className="mx-auto w-full max-w-4xl rounded-[2rem] border border-border bg-card px-6 py-14 text-center sm:px-12">
             <h2 className="text-3xl font-bold text-balance sm:text-4xl">
               Seu próximo cardápio pode surpreender{" "}
@@ -392,18 +394,14 @@ function Landing() {
               Conheça a experiência do menuAR e descubra como apresentar seus pratos em 3D.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              {contactHref ? (
-                <a
-                  href={contactHref}
-                  className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-[image:var(--brand-gradient)] px-7 text-sm font-semibold text-background transition-opacity hover:opacity-90 sm:w-auto"
-                >
-                  Quero no meu restaurante
-                </a>
-              ) : (
-                <p className="rounded-full border border-border px-6 py-3 text-sm text-muted-foreground">
-                  Canal oficial de contato em configuração.
-                </p>
-              )}
+              <a
+                href={whatsappHref("final")}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-[image:var(--brand-gradient)] px-7 text-sm font-semibold text-background transition-opacity hover:opacity-90 sm:w-auto"
+              >
+                Falar no WhatsApp
+              </a>
               <Link
                 to="/demo"
                 className="inline-flex min-h-12 w-full items-center justify-center rounded-full border border-border px-7 text-sm font-semibold text-foreground transition-colors hover:bg-accent sm:w-auto"

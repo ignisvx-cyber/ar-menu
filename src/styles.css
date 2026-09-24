@@ -145,3 +145,17 @@
   color: transparent;
 }
 
+
+/* Foto do hero: dissolve suavemente no fundo preto, sem bordas visíveis. */
+.hero-photo {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 86%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 86%, transparent 100%);
+}
+@media (min-width: 1024px) {
+  .hero-photo {
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 32%, #000 94%, transparent 100%), linear-gradient(to bottom, transparent 0%, #000 10%, #000 90%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(to right, transparent 0%, #000 32%, #000 94%, transparent 100%), linear-gradient(to bottom, transparent 0%, #000 10%, #000 90%, transparent 100%);
+    mask-composite: intersect;
+  }
+}
