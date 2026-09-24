@@ -23,6 +23,9 @@ export const USDZ_BY_ID: Readonly<Record<string, string>> = {
   "braised-meat-dish": braisedMeatDish.url,
   "cheesy-baguette": cheesyBaguette.url,
   "chocolate-cake": chocolateCake.url,
+  // USDZ dedicados enviados junto aos novos modelos (public/models).
+  "pizza-familia": "/models/menuAR-pizza-familia-40x40x22cm-iphone.usdz",
+  "sushi-champanhe": "/models/menuAR-sushi-55x45x38cm-iphone.usdz",
 };
 
 /** Retorna o USDZ correspondente ao prato, quando existir. */

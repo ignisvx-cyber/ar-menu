@@ -1,43 +1,30 @@
-/**
- * Dados oficiais de contato do menuAR.
- *
- * PENDENTE: nenhum canal oficial foi fornecido ainda. Enquanto os valores
- * forem `null`, a interface NÃO deve renderizar botões que aparentem
- * funcionar — ela mostra um aviso de canal em configuração.
- *
- * Para ativar, basta preencher os campos abaixo.
- */
-export interface ContactConfig {
-  /** Somente dígitos, com DDI. Ex.: "5511999999999". */
-  whatsapp: string | null;
-  /** E-mail comercial oficial. */
-  email: string | null;
-  /** Usuário do Instagram, sem "@". */
-  instagram: string | null;
+/** Dados oficiais de contato do menuAR. */
+export const WHATSAPP_NUMBER = "5532998514440";
+export const WHATSAPP_DISPLAY = "(32) 99851-4440";
+
+/** Mensagens prontas por contexto de cada botão. */
+export const WHATSAPP_MESSAGES = {
+  hero: "Olá! Conheci o menuAR pelo site e gostaria de saber como implementar a experiência 3D no cardápio do meu restaurante.",
+  header:
+    "Olá! Estou entrando em contato pelo site do menuAR e gostaria de receber mais informações sobre a plataforma.",
+  footer: "Olá! Visitei o site do menuAR e gostaria de conversar sobre o serviço.",
+  start:
+    "Olá! Tenho interesse no plano Start do menuAR, com mensalidade de R$ 1.199,00 e contrato de 3 meses. Gostaria de saber como contratar.",
+  plus: "Olá! Tenho interesse no plano Plus do menuAR, com mensalidade de R$ 897,00 e contrato de 6 meses. Gostaria de saber como contratar.",
+  pro: "Olá! Tenho interesse no plano Pro do menuAR, com mensalidade de R$ 699,00 e contrato de 12 meses. Gostaria de saber como contratar.",
+  demo: "Olá! Experimentei os pratos em 3D no site do menuAR e gostaria de ter essa experiência no cardápio do meu restaurante.",
+  final:
+    "Olá! Quero que o cardápio do meu restaurante surpreenda antes do primeiro pedido. Podemos conversar sobre o menuAR?",
+} as const;
+
+export type WhatsappContext = keyof typeof WHATSAPP_MESSAGES;
+
+/** Link do WhatsApp com a mensagem do contexto corretamente codificada. */
+export function whatsappHref(context: WhatsappContext): string {
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGES[context])}`;
 }
 
-export const CONTACT: ContactConfig = {
-  whatsapp: null,
-  email: null,
-  instagram: null,
-};
-
-/** Mensagem pré-preenchida usada no link do WhatsApp, quando configurado. */
-const WHATSAPP_MESSAGE =
-  "Olá! Vi o site do menuAR e quero conhecer a experiência 3D e de realidade aumentada para o meu restaurante.";
-
-/**
- * Retorna o melhor link de contato disponível ou `null` quando ainda não há
- * nenhum canal oficial configurado.
- */
-export function getContactHref(): string | null {
-  if (CONTACT.whatsapp) {
-    return `https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
-  }
-  if (CONTACT.email) {
-    return `mailto:${CONTACT.email}?subject=${encodeURIComponent("menuAR — quero no meu restaurante")}`;
-  }
-  return null;
+/** Compatibilidade com usos antigos: contato geral. */
+export function getContactHref(): string {
+  return whatsappHref("header");
 }
-
-export const hasContact = (): boolean => getContactHref() !== null;
