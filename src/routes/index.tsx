@@ -175,7 +175,7 @@ function Landing() {
                     height={1422}
                     alt="Smartphone sobre a mesa de um restaurante elegante exibindo um prato com o menuAR"
                     fetchPriority="high"
-                    className="block aspect-[1/1] w-full object-cover object-[72%_60%] sm:aspect-[4/3] lg:aspect-[6/5] lg:object-[68%_50%]"
+                    className="block aspect-[1/1] w-full object-cover object-[72%_66%] sm:aspect-[4/3] lg:aspect-[6/5] lg:object-[68%_50%]"
                   />
                 </picture>
                 <div aria-hidden className="hero-frame-shade pointer-events-none absolute inset-0" />
