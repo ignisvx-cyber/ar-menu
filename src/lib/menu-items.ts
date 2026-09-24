@@ -31,7 +31,7 @@ export const MENU_ITEMS: readonly MenuItem[] = [
     id: "sushi-champanhe",
     name: "Sushi com champanhe",
     description: "Novo conjunto 3D com bandeja de sushi, taças, balde de gelo e garrafa.",
-    model: "/models/menuAR-sushi-55x45x38cm-OTIMIZADO.glb",
+    model: "/models/menuAR-sushi-55x45x38cm-PREPARADO.glb",
   },
   {
     id: "grilled-steak",

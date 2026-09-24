@@ -18,7 +18,7 @@ const DISHES = [
     id: "sushi-champanhe",
     name: "Sushi com champanhe",
     note: "Conjunto completo",
-    src: "/models/menuAR-sushi-55x45x38cm-OTIMIZADO.glb",
+    src: "/models/menuAR-sushi-55x45x38cm-PREPARADO.glb",
   },
 ] as const;
 
