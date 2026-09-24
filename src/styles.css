@@ -145,3 +145,15 @@
   color: transparent;
 }
 
+
+/* Foto do hero: dissolve suavemente no fundo preto, sem bordas visíveis. */
+.hero-photo {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 86%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 86%, transparent 100%);
+}
+@media (min-width: 1024px) {
+  .hero-photo {
+    -webkit-mask-image: radial-gradient(ellipse 80% 88% at 64% 50%, #000 55%, transparent 100%);
+    mask-image: radial-gradient(ellipse 80% 88% at 64% 50%, #000 55%, transparent 100%);
+  }
+}
