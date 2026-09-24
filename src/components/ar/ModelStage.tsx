@@ -9,7 +9,7 @@ import {
 } from "react";
 
 import { claimModel, releaseModel } from "@/lib/model-playback";
-import { loadModelViewer } from "@/lib/model-viewer-loader";
+import { loadModelViewer, warmModelViewer } from "@/lib/model-viewer-loader";
 import { supportsWebgl } from "@/lib/device";
 import { cn } from "@/lib/utils";
 
@@ -115,6 +115,7 @@ export function ModelStage({
   };
   const release = useCallback(() => releaseRef.current(), []);
   useEffect(() => () => releaseModel(release), [release]);
+  useEffect(() => warmModelViewer(), []);
 
   // Carrega o modelo apenas quando o card entra na tela (modo lazy).
   useEffect(() => {
