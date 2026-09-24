@@ -25,13 +25,13 @@ export const MENU_ITEMS: readonly MenuItem[] = [
     id: "pizza-familia",
     name: "Pizza família",
     description: "Novo modelo 3D demonstrativo (40 × 40 cm). Veja a fatia levantada e o tamanho real sobre a mesa.",
-    model: "/models/menuAR-pizza-familia-40x40x22cm-mobile.glb",
+    model: "/models/menuAR-pizza-familia-40x40x22cm-OTIMIZADA.glb",
   },
   {
     id: "sushi-champanhe",
     name: "Sushi com champanhe",
     description: "Novo conjunto 3D com bandeja de sushi, taças, balde de gelo e garrafa.",
-    model: "/models/menuAR-sushi-55x45x38cm-mobile.glb",
+    model: "/models/menuAR-sushi-55x45x38cm-OTIMIZADO.glb",
   },
   {
     id: "grilled-steak",

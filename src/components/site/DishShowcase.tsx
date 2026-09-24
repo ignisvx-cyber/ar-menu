@@ -12,13 +12,13 @@ const DISHES = [
     id: "pizza-familia",
     name: "Pizza família",
     note: "40 × 40 cm",
-    src: "/models/menuAR-pizza-familia-40x40x22cm-mobile.glb",
+    src: "/models/menuAR-pizza-familia-40x40x22cm-OTIMIZADA.glb",
   },
   {
     id: "sushi-champanhe",
     name: "Sushi com champanhe",
     note: "Conjunto completo",
-    src: "/models/menuAR-sushi-55x45x38cm-mobile.glb",
+    src: "/models/menuAR-sushi-55x45x38cm-OTIMIZADO.glb",
   },
 ] as const;
 
