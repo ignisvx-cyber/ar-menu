@@ -90,6 +90,21 @@ const BENEFITS = [
   "Realidade aumentada em aparelhos compatíveis.",
 ] as const;
 
+const ADVANTAGES = [
+  {
+    title: "O cliente entende a porção antes de pedir.",
+    text: "A visualização do prato ajuda o cliente a conhecer seu tamanho e sua apresentação, reduzindo dúvidas que normalmente precisariam ser esclarecidas pela equipe.",
+  },
+  {
+    title: "Escolher o tamanho da porção fica mais fácil.",
+    text: "Ao visualizar as proporções do prato na própria mesa, o cliente tem mais informações para escolher a opção que atende à sua necessidade.",
+  },
+  {
+    title: "O cliente sabe melhor o que esperar.",
+    text: "Conhecer a apresentação e as proporções do alimento antes do pedido ajuda a alinhar as expectativas com o prato que será servido.",
+  },
+] as const;
+
 const FAQ = [
   {
     q: "Preciso baixar algum aplicativo?",
@@ -257,7 +272,10 @@ function Landing() {
         {/* TRÊS PASSOS */}
         <section className="px-4 py-16 sm:px-6">
           <div className="mx-auto w-full max-w-6xl">
-            <h2 className="max-w-2xl text-3xl font-bold text-balance sm:text-4xl">
+            <span className="text-brand text-sm font-bold tracking-[0.2em] uppercase">
+              Três toques. Zero download.
+            </span>
+            <h2 className="mt-3 max-w-2xl text-3xl font-bold text-balance sm:text-4xl">
               Do cardápio à sua mesa em <span className="text-brand">três passos.</span>
             </h2>
             <ul className="mt-10 grid gap-4 md:grid-cols-3">
@@ -330,7 +348,18 @@ function Landing() {
               Seu cardápio, de um jeito que o cliente{" "}
               <span className="text-brand">ainda não viu.</span>
             </h2>
-            <ul className="mt-8 grid gap-4 sm:grid-cols-2">
+            <ol className="mt-8 grid gap-6 border-t border-border pt-8 md:grid-cols-3 md:gap-8">
+              {ADVANTAGES.map((item, index) => (
+                <li key={item.title}>
+                  <span className="text-brand text-xs font-bold tracking-widest">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className="mt-2 text-base font-semibold text-balance">{item.title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">{item.text}</p>
+                </li>
+              ))}
+            </ol>
+            <ul className="mt-8 grid gap-4 border-t border-border pt-8 sm:grid-cols-2">
               {BENEFITS.map((benefit) => (
                 <li key={benefit} className="flex items-start gap-3 text-sm text-muted-foreground">
                   <span
