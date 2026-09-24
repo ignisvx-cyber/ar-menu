@@ -18,7 +18,7 @@ import { Logo } from "@/components/site/Logo";
 import { DishShowcase } from "@/components/site/DishShowcase";
 import { Pricing } from "@/components/site/Pricing";
 import { whatsappHref } from "@/lib/contact";
-import { GALLERY_VIDEOS } from "@/lib/videos";
+import { GALLERY_ENABLED, GALLERY_VIDEOS } from "@/lib/videos";
 
 /** Galeria sem o vídeo da marmita, removido da página inicial. */
 const HOME_GALLERY = GALLERY_VIDEOS.filter((video) => video.id !== "marmita");
@@ -321,7 +321,8 @@ function Landing() {
           </div>
         </section>
 
-        {/* GALERIA DE VÍDEOS */}
+        {/* GALERIA DE VÍDEOS — oculta enquanto GALLERY_ENABLED = false (src/lib/videos.ts) */}
+        {GALLERY_ENABLED && HOME_GALLERY.length > 0 ? (
         <section className="py-16">
           <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
             <h2 className="text-3xl font-bold text-balance sm:text-4xl">
@@ -340,6 +341,7 @@ function Landing() {
             ))}
           </ul>
         </section>
+        ) : null}
 
         {/* SEÇÃO COMERCIAL */}
         <section className="px-4 py-16 sm:px-6">
