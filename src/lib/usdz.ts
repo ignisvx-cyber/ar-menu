@@ -23,6 +23,7 @@ export const USDZ_BY_ID: Readonly<Record<string, string>> = {
   "braised-meat-dish": braisedMeatDish.url,
   "cheesy-baguette": cheesyBaguette.url,
   "chocolate-cake": chocolateCake.url,
+  "sushi-champanhe": "/models/menuAR-sushi-champanhe-iphone7-leve.usdz",
 };
 
 /** Retorna o USDZ correspondente ao prato, quando existir. */
