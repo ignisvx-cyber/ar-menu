@@ -3,10 +3,12 @@ import { Menu, X } from "lucide-react";
 import { useState } from "react";
 
 import { Logo } from "@/components/site/Logo";
+import { whatsappHref } from "@/lib/contact";
 
 const NAV_LINKS = [
   { href: "/#como-funciona", label: "Como funciona" },
   { href: "/demo", label: "Demonstração", internal: true },
+  { href: "/#planos", label: "Planos" },
   { href: "/#perguntas", label: "Perguntas frequentes" },
 ] as const;
 
@@ -42,10 +44,12 @@ export function SiteHeader() {
             ),
           )}
           <a
-            href="/#contato"
+            href={whatsappHref("header")}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex min-h-10 items-center rounded-full bg-[image:var(--brand-gradient)] px-5 text-sm font-semibold text-background transition-opacity hover:opacity-90"
           >
-            Quero no meu restaurante
+            Fale conosco
           </a>
         </nav>
 
@@ -86,11 +90,13 @@ export function SiteHeader() {
             ))}
           </ul>
           <a
-            href="/#contato"
+            href={whatsappHref("header")}
+            target="_blank"
+            rel="noopener noreferrer"
             onClick={() => setOpen(false)}
             className="mt-2 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-[image:var(--brand-gradient)] px-5 text-sm font-semibold text-background"
           >
-            Quero no meu restaurante
+            Fale conosco
           </a>
         </nav>
       ) : null}
