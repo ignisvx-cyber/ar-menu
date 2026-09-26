@@ -112,7 +112,7 @@ const FAQ = [
   },
   {
     q: "Funciona em iPhone e Android?",
-    a: "A visualização 3D funciona em navegadores compatíveis. A realidade aumentada fica disponível nos aparelhos que oferecem o suporte necessário — não há garantia de compatibilidade universal.",
+    a: "A visualização 3D funciona em navegadores compatíveis. A realidade aumentada fica disponível nos aparelhos que oferecem o suporte necessário.",
   },
   {
     q: "Como os modelos dos pratos são criados?",
