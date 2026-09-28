@@ -20,6 +20,12 @@ const DISHES = [
     note: "Conjunto completo",
     src: "/models/menuAR-sushi-55x45x38cm-PREPARADO.glb",
   },
+  {
+    id: "marmita-delivery",
+    name: "Marmita delivery",
+    note: "Tamanho e composição antes do pedido",
+    src: "/models/menuAR-marmita-delivery-26x19x9_5cm.glb",
+  },
 ] as const;
 
 /**
