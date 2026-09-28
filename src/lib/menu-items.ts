@@ -34,6 +34,12 @@ export const MENU_ITEMS: readonly MenuItem[] = [
     model: "/models/menuAR-sushi-55x45x38cm-PREPARADO.glb",
   },
   {
+    id: "marmita-delivery",
+    name: "Marmita delivery",
+    description: "Para delivery: veja o tamanho e a composição da refeição antes mesmo do pedido.",
+    model: "/models/menuAR-marmita-delivery-26x19x9_5cm.glb",
+  },
+  {
     id: "grilled-steak",
     name: "Bife grelhado",
     description: "Modelo 3D demonstrativo. Explore a apresentação do corte no prato.",
