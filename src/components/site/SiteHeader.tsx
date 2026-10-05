@@ -44,6 +44,19 @@ export function SiteHeader() {
             ),
           )}
           <a
+            href="https://www.instagram.com/meumenuar/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram do menuAR (abre em nova aba)"
+            className="inline-flex size-10 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:border-transparent hover:bg-[image:var(--brand-gradient)] hover:text-background"
+          >
+            <svg aria-hidden viewBox="0 0 24 24" className="size-[18px]" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="5" />
+              <circle cx="12" cy="12" r="4" />
+              <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" />
+            </svg>
+          </a>
+          <a
             href={whatsappHref("header")}
             target="_blank"
             rel="noopener noreferrer"
