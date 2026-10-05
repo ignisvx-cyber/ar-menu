@@ -17,7 +17,7 @@ const DISHES = [
   {
     id: "pizza-familia",
     name: "Pizza família",
-    note: "40 × 40 cm",
+    note: "Pizza sabor calabresa\n",
     src: "/models/menuAR-pizza-familia-40x40x22cm-OTIMIZADA.glb",
   },
   {
