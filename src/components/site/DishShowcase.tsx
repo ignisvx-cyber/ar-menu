@@ -6,7 +6,13 @@ import { usdzFor } from "@/lib/usdz";
 import { cn } from "@/lib/utils";
 
 const DISHES = [
-  { id: "burger", name: "Hambúrguer", note: "Montagem completa", src: "/models/burger.glb" },
+  {
+    id: "sushi-champanhe",
+    name: "Sushi com champanhe",
+    note: "Conjunto completo",
+    // Cópia do GLB com escala uniforme de 90% (≈ 49,5 × 40,5 × 34,2 cm) só para a home.
+    src: "/models/menuAR-sushi-90pct-49x40x34cm.glb",
+  },
   { id: "grilled-steak", name: "Bife", note: "Corte grelhado", src: "/models/grilled-steak.glb" },
   {
     id: "pizza-familia",
@@ -15,16 +21,10 @@ const DISHES = [
     src: "/models/menuAR-pizza-familia-40x40x22cm-OTIMIZADA.glb",
   },
   {
-    id: "sushi-champanhe",
-    name: "Sushi com champanhe",
-    note: "Conjunto completo",
-    src: "/models/menuAR-sushi-55x45x38cm-PREPARADO.glb",
-  },
-  {
-    id: "marmita-delivery",
-    name: "Marmita delivery",
-    note: "Tamanho e composição antes do pedido",
-    src: "/models/menuAR-marmita-delivery-26x19x9_5cm.glb",
+    id: "chocolate-cake",
+    name: "Bolo de chocolate",
+    note: "Camadas e cobertura",
+    src: "/models/chocolate-cake.glb",
   },
 ] as const;
 
