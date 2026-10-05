@@ -102,15 +102,31 @@ export function SiteHeader() {
               </li>
             ))}
           </ul>
-          <a
-            href={whatsappHref("header")}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => setOpen(false)}
-            className="mt-2 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-[image:var(--brand-gradient)] px-5 text-sm font-semibold text-background"
-          >
-            Fale conosco
-          </a>
+          <div className="mt-2 flex items-center gap-2">
+            <a
+              href={whatsappHref("header")}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setOpen(false)}
+              className="inline-flex min-h-12 flex-1 items-center justify-center rounded-full bg-[image:var(--brand-gradient)] px-5 text-sm font-semibold text-background"
+            >
+              Fale conosco
+            </a>
+            <a
+              href="https://www.instagram.com/meumenuar/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram do menuAR (abre em nova aba)"
+              onClick={() => setOpen(false)}
+              className="inline-flex size-12 shrink-0 items-center justify-center rounded-full border border-border text-muted-foreground"
+            >
+              <svg aria-hidden viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="5" />
+                <circle cx="12" cy="12" r="4" />
+                <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" />
+              </svg>
+            </a>
+          </div>
         </nav>
       ) : null}
     </header>
