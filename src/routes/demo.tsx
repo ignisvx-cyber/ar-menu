@@ -3,6 +3,7 @@ import { ArrowLeft } from "lucide-react";
 
 import { ModelStage } from "@/components/ar/ModelStage";
 import { usdzFor } from "@/lib/usdz";
+import { arModelFor } from "@/lib/sushi-ar";
 import { Logo } from "@/components/site/Logo";
 import { MENU_ITEMS } from "@/lib/menu-items";
 
@@ -65,6 +66,7 @@ function DemoMenu() {
                 </span>
                 <ModelStage
                   src={item.model}
+                  arSrc={arModelFor(item.id)}
                   iosSrc={usdzFor(item.id)}
                   alt={`Modelo 3D de ${item.name.toLowerCase()}`}
                   lazy
