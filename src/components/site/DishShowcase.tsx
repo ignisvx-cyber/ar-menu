@@ -11,8 +11,8 @@ const DISHES = [
     id: "sushi-champanhe",
     name: "Sushi com champanhe",
     note: "Conjunto completo",
-    // Cópia do GLB com escala uniforme de 90% (≈ 49,5 × 40,5 × 34,2 cm) só para a home.
-    src: "/models/menuAR-sushi-90pct-49x40x34cm.glb",
+    // Mantém o modelo original na página; a redução de 25% é aplicada somente no AR via arModelFor.
+    src: "/models/menuAR-sushi-55x45x38cm-PREPARADO.glb",
   },
   { id: "grilled-steak", name: "Bife", note: "Corte grelhado", src: "/models/grilled-steak.glb" },
   {
