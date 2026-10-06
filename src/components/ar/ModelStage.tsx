@@ -24,8 +24,6 @@ interface ModelViewerElementProps {
   loading?: string;
   children?: React.ReactNode;
   src: string;
-  /** Optional separate model used only when activating AR. */
-  arSrc?: string | undefined;
   "ios-src"?: string;
   alt: string;
   ar?: boolean;
@@ -46,6 +44,8 @@ const ModelViewerElement = "model-viewer" as unknown as ComponentType<ModelViewe
 export interface ModelStageProps {
   /** Caminho público do GLB, ex.: "/models/burger.glb". */
   src: string;
+  /** Optional separate model used only when activating AR. */
+  arSrc?: string | undefined;
   /**
    * USDZ dedicado usado pelo AR Quick Look do iPhone. Quando ausente, o
    * model-viewer converte o GLB no navegador — conversão que costuma escurecer
