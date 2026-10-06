@@ -19,7 +19,13 @@ import { cn } from "@/lib/utils";
  */
 interface ModelViewerElementProps {
   ref?: Ref<HTMLElement>;
+  className?: string;
+  "aria-hidden"?: boolean;
+  loading?: string;
+  children?: React.ReactNode;
   src: string;
+  /** Optional separate model used only when activating AR. */
+  arSrc?: string | undefined;
   "ios-src"?: string;
   alt: string;
   ar?: boolean;
@@ -87,6 +93,7 @@ type LoadState = "idle" | "loading" | "ready" | "error";
  */
 export function ModelStage({
   src,
+  arSrc,
   iosSrc,
   alt,
   className,
@@ -102,6 +109,8 @@ export function ModelStage({
   const viewerRef = useRef<HTMLElement & { activateAR?: () => void; canActivateAR?: boolean }>(
     null,
   );
+  const arViewerRef = useRef<HTMLElement & { activateAR?: () => Promise<void>; canActivateAR?: boolean; loaded?: boolean }>(null);
+  const [arPresenting, setArPresenting] = useState(false);
   const [defined, setDefined] = useState(false);
   const [visible, setVisible] = useState(!lazy && !deferred);
   const [state, setState] = useState<LoadState>("idle");
@@ -186,7 +195,7 @@ export function ModelStage({
 
     const onLoad = () => {
       setState("ready");
-      setArAvailable(Boolean(viewer.canActivateAR));
+      if (!arSrc) setArAvailable(Boolean(viewer.canActivateAR));
     };
     const onError = () => setState("error");
 
@@ -196,16 +205,45 @@ export function ModelStage({
       viewer.removeEventListener("load", onLoad);
       viewer.removeEventListener("error", onError);
     };
-  }, [defined, visible]);
+  }, [defined, visible, arSrc]);
+
+  // Dedicated AR scene: the page scene's src, camera and dimensions never change.
+  useEffect(() => {
+    const viewer = arViewerRef.current;
+    if (!defined || !visible || !arSrc || !viewer) return;
+    const onLoad = () => setArAvailable(Boolean(viewer.canActivateAR));
+    const onError = () => {
+      setArAvailable(false);
+      setArMessage("Não foi possível carregar o sushi para realidade aumentada. Atualize a página para tentar novamente.");
+    };
+    const onStatus = (event: Event) => {
+      const status = (event as CustomEvent<{ status: string }>).detail.status;
+      setArPresenting(status === "session-started" || status === "object-placed");
+      if (status === "failed") setArMessage("Não foi possível abrir a realidade aumentada neste aparelho.");
+    };
+    viewer.addEventListener("load", onLoad);
+    viewer.addEventListener("error", onError);
+    viewer.addEventListener("ar-status", onStatus);
+    if (viewer.loaded) onLoad();
+    return () => {
+      viewer.removeEventListener("load", onLoad);
+      viewer.removeEventListener("error", onError);
+      viewer.removeEventListener("ar-status", onStatus);
+    };
+  }, [defined, visible, arSrc]);
 
   const handleAr = () => {
-    const viewer = viewerRef.current;
+    const viewer = arSrc ? arViewerRef.current : viewerRef.current;
     if (!viewer?.activateAR) return;
-    try {
-      viewer.activateAR();
-    } catch (error: unknown) {
+    const onFailure = (error: unknown) => {
       console.error("Não foi possível iniciar a realidade aumentada", error);
       setArMessage("Não foi possível abrir a realidade aumentada neste aparelho.");
+    };
+    try {
+      // Keep activation synchronous with the tap (required by native AR viewers).
+      Promise.resolve(viewer.activateAR()).catch(onFailure);
+    } catch (error: unknown) {
+      onFailure(error);
     }
   };
 
@@ -226,7 +264,7 @@ export function ModelStage({
             src={src}
             {...(iosSrc ? { "ios-src": iosSrc } : {})}
             alt={alt}
-            ar
+            ar={!arSrc}
             ar-modes="webxr scene-viewer quick-look"
             ar-placement="floor"
             ar-scale="fixed"
@@ -275,6 +313,29 @@ export function ModelStage({
           </span>
         ) : null}
       </div>
+
+      {showScene && arSrc ? (
+        <ModelViewerElement
+          ref={arViewerRef}
+          src={arSrc}
+          alt={alt}
+          ar
+          loading="eager"
+          ar-modes="webxr scene-viewer quick-look"
+          ar-placement="floor"
+          ar-scale="fixed"
+          exposure="1.05"
+          shadow-intensity="1"
+          interaction-prompt="none"
+          aria-hidden={!arPresenting}
+          className={cn(
+            "fixed inset-0 h-dvh w-screen",
+            arPresenting ? "z-50" : "pointer-events-none -z-50 opacity-0",
+          )}
+        >
+          <span slot="ar-button" />
+        </ModelViewerElement>
+      ) : null}
 
       {showArButton ? (
         <div className="flex flex-col gap-2">

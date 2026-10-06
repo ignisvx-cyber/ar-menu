@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ModelStage } from "@/components/ar/ModelStage";
 import { SafeBlock } from "@/components/site/SafeBlock";
 import { usdzFor } from "@/lib/usdz";
+import { arModelFor } from "@/lib/sushi-ar";
 import { cn } from "@/lib/utils";
 
 const DISHES = [
@@ -80,6 +81,7 @@ export function DishShowcase() {
         <SafeBlock key={active.id}>
           <ModelStage
             src={active.src}
+            arSrc={arModelFor(active.id)}
             iosSrc={usdzFor(active.id)}
             alt={`Modelo 3D interativo: ${active.name.toLowerCase()}`}
             lazy
