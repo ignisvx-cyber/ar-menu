@@ -60,9 +60,21 @@ export function SiteFooter() {
         </nav>
       </div>
 
-      <p className="mx-auto mt-10 w-full max-w-6xl text-xs text-muted-foreground/70">
-        © {new Date().getFullYear()} menuAR. Todos os direitos reservados.
-      </p>
+      <div className="mx-auto mt-10 flex w-full max-w-6xl flex-col gap-4 text-xs text-muted-foreground/70 sm:flex-row sm:items-end sm:justify-between">
+        <p>© {new Date().getFullYear()} menuAR. Todos os direitos reservados.</p>
+        <a
+          href="https://ignisdigital.online"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="IGNIS Soluções Digitais (abre em nova aba)"
+          className="flex w-fit flex-col gap-0.5 transition-colors hover:text-foreground sm:items-end sm:text-right"
+        >
+          <span>Desenvolvido com excelência por</span>
+          <span className="tracking-wide">
+            <strong className="font-semibold text-foreground/80">IGNIS</strong> Soluções Digitais
+          </span>
+        </a>
+      </div>
     </footer>
   );
 }
