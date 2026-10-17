@@ -16,6 +16,12 @@ const DISHES = [
   },
   { id: "grilled-steak", name: "Bife", note: "Corte grelhado", src: "/models/grilled-steak.glb" },
   {
+    id: "trio-bebidas",
+    name: "Trio de bebidas",
+    note: "Drink azul, coquetel e chopp",
+    src: "/models/menuAR-trio-bebidas-30x20x9cm-AR.glb",
+  },
+  {
     id: "pizza-familia",
     name: "Pizza família",
     note: "Pizza sabor calabresa\n",
@@ -30,7 +36,7 @@ const DISHES = [
 ] as const;
 
 /**
- * Seletor de quatro pratos com UMA única cena 3D ativa: trocar de prato
+ * Seletor de cinco opções com UMA única cena 3D ativa: trocar de prato
  * desmonta o modelo anterior antes de carregar o próximo.
  */
 export function DishShowcase() {
